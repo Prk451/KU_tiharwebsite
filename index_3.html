@@ -2962,6 +2962,155 @@
       cursor: default !important;
     }
 
+
+    /* ═══════════════════════════════════════════════════════════════════
+       MAJESTIC SLOW DIYA LIGHT-UP & ELEVATED SACRED EDITORIAL CARDS
+    ═══════════════════════════════════════════════════════════════════ */
+    .subtitle {
+      display: none !important;
+    }
+
+    /* Remove nav buttons */
+    .codex-nav-btns,
+    #prevChapterBtn,
+    #nextChapterBtn,
+    #prevDayBtn,
+    #nextDayBtn {
+      display: none !important;
+    }
+
+    /* Slow, majestic, ceremonial Diya lighting */
+    .flame {
+      opacity: 0;
+      transform-origin: 50% 100%;
+      transform: scale(.3) translateY(12px);
+      transition: opacity 3.2s cubic-bezier(0.16, 1, 0.3, 1), transform 3.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .celebrating .flame {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      animation: flame-flicker 2.4s ease-in-out infinite alternate 3s !important;
+    }
+    .flame-core {
+      opacity: 0;
+      transition: opacity 2.8s 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .celebrating .flame-core {
+      opacity: 1;
+    }
+    .diya-halo {
+      transition: opacity 4.2s cubic-bezier(0.16, 1, 0.3, 1), transform 4.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .celebrating .diya-halo {
+      opacity: 1 !important;
+      transform: scale(1.35) !important;
+      background: radial-gradient(ellipse, rgba(255, 175, 68, .45), transparent 70%) !important;
+    }
+
+    /* Slower atmospheric crossfade of Kathmandu skyline */
+    .festival-backdrop,
+    .festival-backdrop::after,
+    .city-scene,
+    .window,
+    .city-warmth,
+    .string-lights,
+    .jhilimili-strand,
+    .ground-glow,
+    .courtyard-rangoli,
+    .sky-lantern {
+      transition-duration: 4.8s !important;
+      transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    /* Slower, deep golden shockwave */
+    .diya-shockwave {
+      border: 1.5px solid rgba(255, 212, 122, 0.78) !important;
+      box-shadow: 0 0 110px rgba(255, 184, 28, 0.5), inset 0 0 80px rgba(255, 140, 40, 0.3) !important;
+      animation: shockwave-expand-slow 4.8s cubic-bezier(0.12, 0.72, 0.18, 1) forwards !important;
+    }
+
+    /* Elevated, Sacred 5-Days Narrative Cards */
+    .day-narrative-card {
+      padding: 14px 18px !important;
+      background: rgba(12, 14, 20, 0.72) !important;
+      border: 1px solid rgba(255, 212, 122, 0.22) !important;
+      border-top: 2px solid var(--c-gold) !important;
+      border-radius: 6px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 7px !important;
+      backdrop-filter: blur(14px) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 212, 122, 0.12) !important;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+    }
+    .day-narrative-card:hover {
+      transform: translateY(-2px) !important;
+      border-color: rgba(255, 212, 122, 0.42) !important;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 212, 122, 0.25) !important;
+    }
+    .day-card-tag {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      border-bottom: 1px solid rgba(255, 212, 122, 0.18) !important;
+      padding-bottom: 6px !important;
+      margin-bottom: 3px !important;
+    }
+    .day-card-badge-label {
+      font-family: "Cinzel", "Space Mono", Georgia, serif !important;
+      font-size: 11px !important;
+      letter-spacing: 0.16em !important;
+      text-transform: uppercase !important;
+      color: #ffd47a !important;
+      font-weight: 600 !important;
+      text-shadow: 0 0 12px rgba(255, 184, 28, 0.35) !important;
+    }
+    .day-card-deva {
+      font-family: "Noto Serif Devanagari", "Cormorant Garamond", Georgia, serif !important;
+      font-size: 12.5px !important;
+      letter-spacing: 0.04em !important;
+      color: rgba(255, 212, 122, 0.8) !important;
+      font-style: italic !important;
+    }
+    .day-bullet-list {
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 7px !important;
+    }
+    .day-bullet-list li {
+      position: relative !important;
+      padding-left: 18px !important;
+      font-family: "Cormorant Garamond", Georgia, serif !important;
+      font-size: 16px !important;
+      line-height: 1.48 !important;
+      color: #f7f3ea !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.01em !important;
+    }
+    .day-bullet-list li strong {
+      color: #ffd47a !important;
+      font-weight: 600 !important;
+      font-family: inherit !important;
+      text-shadow: 0 0 8px rgba(255, 184, 28, 0.25) !important;
+    }
+    .day-bullet-list li em {
+      color: #fff0d0 !important;
+      font-style: italic !important;
+      font-family: inherit !important;
+    }
+    .day-bullet-list li::before {
+      content: "✦" !important;
+      position: absolute !important;
+      left: 0 !important;
+      top: 1px !important;
+      font-size: 10px !important;
+      color: #ffb81c !important;
+      text-shadow: 0 0 8px rgba(255, 184, 28, 0.8) !important;
+    }
+    
 </style>
 
   <!-- Preload Critical Hero Background for Instant LCP -->
@@ -3042,7 +3191,7 @@
     <main class="hero" id="top">
       <div class="eyebrow">The festival of lights</div>
       <h1 id="headline">The city is waiting<br />for <span class="gold">one spark.</span></h1>
-      <p class="subtitle" id="subtitle">Kathmandu is quiet tonight. Bring the warmth of Tihar back to its streets — one little diya at a time.</p>
+      <p class="subtitle" id="subtitle" style="display: none;"></p>
 
       <div class="diya-area">
         <div class="diya-halo" aria-hidden="true"></div>
@@ -3906,10 +4055,7 @@
       <!-- Archival Footer Controls -->
       <footer class="codex-footer">
         <span id="footerThemeReadout">ARCHIVE MODE // SCROLL OR USE ARROW KEYS TO TURN PLATES</span>
-        <div class="codex-nav-btns">
-          <button type="button" class="codex-btn" id="prevChapterBtn" disabled>← PREV</button>
-          <button type="button" class="codex-btn" id="nextChapterBtn">NEXT →</button>
-        </div>
+        <div class="codex-nav-btns" style="display: none !important;"></div>
       </footer>
 
     </div><!-- /story-sticky -->
@@ -4008,8 +4154,8 @@
             <div class="day-deck-right">
               <div class="day-narrative-card">
                 <div class="day-card-tag">
-                  <span>01 // CONNECTION TO THE LEGEND</span>
-                  <span>[ REF: PAGES 04 &amp; 13 ]</span>
+                  <span class="day-card-badge-label">✦ THE SACRED COVENANT</span>
+                  <span class="day-card-deva">पौराणिक कथा</span>
                 </div>
                 <ul class="day-bullet-list">
                   <li class="bullet-diya"><strong>The Envoy:</strong> Yamaraj dispatched the crow to claim the ailing King <strong>Bali Hang</strong>.</li>
@@ -4019,8 +4165,8 @@
               </div>
               <div class="day-narrative-card celebration-card">
                 <div class="day-card-tag">
-                  <span>02 // WHY &amp; HOW IT IS CELEBRATED</span>
-                  <span>[ KATHMANDU TRADITION ]</span>
+                  <span class="day-card-badge-label">✦ LIVING TRADITION</span>
+                  <span class="day-card-deva">काठमाडौँको परम्परा</span>
                 </div>
                 <ul class="day-bullet-list">
                   <li class="bullet-diya"><strong>Yamaduta Herald:</strong> Crows are revered as spiritual messengers bridging Earth and Yamaloka.</li>
@@ -4065,8 +4211,8 @@
             <div class="day-deck-right">
               <div class="day-narrative-card">
                 <div class="day-card-tag">
-                  <span>01 // CONNECTION TO THE LEGEND</span>
-                  <span>[ REF: PAGE 05 ]</span>
+                  <span class="day-card-badge-label">✦ THE SACRED COVENANT</span>
+                  <span class="day-card-deva">पौराणिक कथा</span>
                 </div>
                 <ul class="day-bullet-list">
                   <li class="bullet-diya"><strong>Four-Eyed Envoy:</strong> Yamaraj sent hound <em>Charankhe</em>, whose gaze pierces spiritual veils.</li>
@@ -4076,8 +4222,8 @@
               </div>
               <div class="day-narrative-card celebration-card">
                 <div class="day-card-tag">
-                  <span>02 // WHY &amp; HOW IT IS CELEBRATED</span>
-                  <span>[ KATHMANDU TRADITION ]</span>
+                  <span class="day-card-badge-label">✦ LIVING TRADITION</span>
+                  <span class="day-card-deva">काठमाडौँको परम्परा</span>
                 </div>
                 <ul class="day-bullet-list">
                   <li class="bullet-diya"><strong>Dharma's Steed:</strong> Dogs represent righteousness and guard the gates of Yamaraj.</li>
@@ -4122,8 +4268,8 @@
             <div class="day-deck-right">
               <div class="day-narrative-card">
                 <div class="day-card-tag">
-                  <span>01 // CONNECTION TO THE LEGEND</span>
-                  <span>[ REF: PAGES 03 &amp; 08 ]</span>
+                  <span class="day-card-badge-label">✦ THE SACRED COVENANT</span>
+                  <span class="day-card-deva">पौराणिक कथा</span>
                 </div>
                 <ul class="day-bullet-list">
                   <li class="bullet-diya"><strong>Pitch-Black Vigil:</strong> On <em>Aunsi</em> new moon, King Bali Hang’s life force waned to its darkest hour.</li>
@@ -4133,8 +4279,8 @@
               </div>
               <div class="day-narrative-card celebration-card">
                 <div class="day-card-tag">
-                  <span>02 // WHY &amp; HOW IT IS CELEBRATED</span>
-                  <span>[ KATHMANDU TRADITION ]</span>
+                  <span class="day-card-badge-label">✦ LIVING TRADITION</span>
+                  <span class="day-card-deva">काठमाडौँको परम्परा</span>
                 </div>
                 <ul class="day-bullet-list">
                   <li class="bullet-diya"><strong>Morning Gai Puja:</strong> Sacred cows are garlanded and worshipped as Mother Lakshmi.</li>
@@ -4179,8 +4325,8 @@
             <div class="day-deck-right">
               <div class="day-narrative-card">
                 <div class="day-card-tag">
-                  <span>01 // CONNECTION TO THE LEGEND</span>
-                  <span>[ REF: PAGES 06 &amp; 09 ]</span>
+                  <span class="day-card-badge-label">✦ THE SACRED COVENANT</span>
+                  <span class="day-card-deva">पौराणिक कथा</span>
                 </div>
                 <ul class="day-bullet-list">
                   <li class="bullet-diya"><strong>Consecrating the Soul:</strong> <em>Jamuna</em> drew a sacred mandala to protect her brother's inner spirit.</li>
@@ -4189,8 +4335,8 @@
               </div>
               <div class="day-narrative-card celebration-card">
                 <div class="day-card-tag">
-                  <span>02 // WHY &amp; HOW IT IS CELEBRATED</span>
-                  <span>[ KATHMANDU TRADITION ]</span>
+                  <span class="day-card-badge-label">✦ LIVING TRADITION</span>
+                  <span class="day-card-deva">काठमाडौँको परम्परा</span>
                 </div>
                 <ul class="day-bullet-list">
                   <li class="bullet-diya"><strong>Goru &amp; Govardhan:</strong> Oxen are honoured for cultivating the soil alongside festive <em>Deusi</em> carols.</li>
@@ -4235,8 +4381,8 @@
             <div class="day-deck-right">
               <div class="day-narrative-card">
                 <div class="day-card-tag">
-                  <span>01 // CONNECTION TO THE LEGEND</span>
-                  <span>[ REF: PAGES 09–14 ]</span>
+                  <span class="day-card-badge-label">✦ THE SACRED COVENANT</span>
+                  <span class="day-card-deva">पौराणिक कथा</span>
                 </div>
                 <ul class="day-bullet-list">
                   <li class="bullet-diya"><strong>Dawn Confrontation:</strong> Yamaraj arrived, but <em>Jamuna</em> welcomed him with sacred hospitality.</li>
@@ -4246,8 +4392,8 @@
               </div>
               <div class="day-narrative-card celebration-card">
                 <div class="day-card-tag">
-                  <span>02 // WHY &amp; HOW IT IS CELEBRATED</span>
-                  <span>[ KATHMANDU TRADITION ]</span>
+                  <span class="day-card-badge-label">✦ LIVING TRADITION</span>
+                  <span class="day-card-deva">काठमाडौँको परम्परा</span>
                 </div>
                 <ul class="day-bullet-list">
                   <li class="bullet-diya"><strong>Oil &amp; Water Ring:</strong> Sisters circle brothers three times with water and oil to seal a life boundary.</li>
@@ -4268,10 +4414,7 @@
       <!-- Bottom Bar for 5-Days Showcase -->
       <footer class="fivedays-footer">
         <span id="fivedaysFooterReadout">YAMAPANCHAK // 5 DAYS OF TIHAR</span>
-        <div class="codex-nav-btns">
-          <button type="button" class="codex-btn" id="prevDayBtn" disabled>← PREV DAY</button>
-          <button type="button" class="codex-btn" id="nextDayBtn">NEXT DAY →</button>
-        </div>
+        <div class="codex-nav-btns" style="display: none !important;"></div>
       </footer>
 
     </div><!-- /fivedays-sticky -->
@@ -4376,8 +4519,8 @@
       if (celebrating) return;
       celebrating = true;
       page.classList.add('celebrating');
-      headline.innerHTML = 'Happy Tihar,<br /><span class="gold">Kathmandu!</span>';
-      subtitle.textContent = 'One diya, a thousand lights. May your city glow with joy, love, and new beginnings.';
+      headline.innerHTML = '<span class="gold">Happy Tihar</span>';
+      // subtitle removed
       hint.innerHTML = '<span class="hint-dot"></span>Your light brought the city to life';
       lightButton.setAttribute('aria-label', 'The diya is lit. Start the night again to reset.');
       if (window.playTiharChime) window.playTiharChime(528, 1.4);
@@ -4387,7 +4530,7 @@
         [10, 48, 44], [89, 44, 36], [51, 25, 46], [27, 22, 50]
       ];
       shows.forEach(([x, y, hue], index) => {
-        celebrationTimers.push(window.setTimeout(() => burst(x, y, hue), 950 + index * 950));
+        celebrationTimers.push(window.setTimeout(() => burst(x, y, hue), 2200 + index * 900));
       });
     }
 
@@ -4397,7 +4540,7 @@
       celebrationTimers = [];
       page.classList.remove('celebrating');
       headline.innerHTML = 'The city is waiting<br />for <span class="gold">one spark.</span>';
-      subtitle.textContent = 'Kathmandu is quiet tonight. Bring the warmth of Tihar back to its streets — one little diya at a time.';
+      // subtitle removed
       hint.innerHTML = '<span class="hint-dot"></span>Tap the diya to light up the city';
       lightButton.setAttribute('aria-label', 'Light the diya and celebrate Tihar');
       fireworks.replaceChildren();
@@ -4811,7 +4954,7 @@
           tg.classList.toggle('is-passed', i < idx);
         });
 
-        prevBtn.disabled = idx === 0;
+        if (prevBtn) prevBtn.disabled = idx === 0;
         nextBtn.disabled = idx === TOTAL - 1;
       }
 
@@ -5445,26 +5588,7 @@
       }
       const codexNav = document.querySelector('#story .codex-nav-btns');
       if (codexNav) {
-        const autoBtn = document.createElement('button');
-        autoBtn.type = 'button';
-        autoBtn.className = 'codex-btn';
-        autoBtn.textContent = '▶ CINEMA PLAY';
-        let autoTimer = null;
-        autoBtn.addEventListener('click', () => {
-          if (autoTimer) {
-            clearInterval(autoTimer); autoTimer = null;
-            autoBtn.textContent = '▶ CINEMA PLAY';
-          } else {
-            autoBtn.textContent = '❚❚ PAUSE';
-            autoTimer = setInterval(() => {
-              const next = document.getElementById('nextChapterBtn');
-              if (next && !next.disabled) next.click();
-              else { clearInterval(autoTimer); autoTimer = null; autoBtn.textContent = '▶ CINEMA PLAY'; }
-            }, 4600);
-          }
-        });
-        codexNav.prepend(autoBtn);
-      }
+        /* cinema play removed */
 
       /* 5. WORKING OKHAR-SHATTER VISUAL OVERLAY ON DAY 05 */
       const crackBtn = document.getElementById('crackWalnutBtn');
