@@ -2647,198 +2647,132 @@
     .okhar-ritual-toast.cracked .okhar-left { transform: translate(-22px, -8px) rotate(-24deg); }
     .okhar-ritual-toast.cracked .okhar-right { transform: translate(22px, 8px) rotate(24deg); }
 
-    /* 7. SECTION 4: WISH LANTERN WALL, MADAL STUDIO & POSTCARD GENERATOR */
-    .finale-studio {
+    /* ═══════════════════════════════════════════════════════════════════
+       THE ETERNAL COVENANT — CLOSING DEDICATION
+    ═══════════════════════════════════════════════════════════════════ */
+    .tihar-closing-finale {
       position: relative;
-      min-height: 100svh;
-      padding: clamp(72px, 10vh, 110px) clamp(20px, 5vw, 72px) 90px;
-      background:
-        radial-gradient(ellipse at 50% 10%, rgba(255, 168, 38, 0.16) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 85%, rgba(192, 102, 255, 0.12) 0%, transparent 50%),
-        #07080d;
-      border-top: 1px solid rgba(255, 184, 28, 0.35);
+      width: 100%;
+      min-height: 52vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, var(--c-obsidian) 0%, #06070a 100%);
+      border-top: 1px solid rgba(255, 184, 28, 0.28);
+      padding: clamp(64px, 10vh, 120px) clamp(24px, 6vw, 72px);
+      text-align: center;
       overflow: hidden;
       isolation: isolate;
     }
-    .wish-sky-layer {
+    .closing-glow {
       position: absolute;
-      inset: 0;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(720px, 92vw);
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 184, 28, 0.16) 0%, rgba(230, 81, 0, 0.06) 52%, transparent 72%);
+      filter: blur(48px);
       pointer-events: none;
       z-index: 1;
-      overflow: hidden;
     }
-    .wish-lantern-float {
-      position: absolute;
-      bottom: -80px;
+    .closing-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 920px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      animation: wish-rise 18s linear forwards;
+      gap: 18px;
     }
-    .wish-lantern-body {
-      width: 34px;
-      height: 46px;
-      border-radius: 10px 10px 5px 5px;
-      background: radial-gradient(circle at 50% 72%, #fff8d6 0%, #ffb84d 48%, #d84315 92%);
-      box-shadow: 0 0 28px rgba(255, 184, 28, 0.75);
+    .closing-emblem {
+      margin-bottom: 2px;
+      filter: drop-shadow(0 0 20px rgba(255, 184, 28, 0.5));
+      animation: flame-flicker 2.4s ease-in-out infinite alternate;
     }
-    .wish-lantern-tag {
-      padding: 3px 9px;
-      border-radius: 99px;
-      background: rgba(8, 9, 14, 0.78);
-      border: 1px solid rgba(255, 212, 122, 0.45);
-      color: #ffe8ad;
+    .closing-kicker {
       font-family: "Space Mono", monospace;
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      white-space: nowrap;
-    }
-    @keyframes wish-rise {
-      0% { transform: translate3d(0, 0, 0) scale(0.8); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 0.95; }
-      100% { transform: translate3d(var(--wdrift, 40px), -115vh, 0) scale(0.65); opacity: 0; }
-    }
-
-    .finale-inner {
-      position: relative;
-      z-index: 5;
-      max-width: 1220px;
-      margin: 0 auto;
-    }
-    .finale-header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-    .finale-kicker {
-      font-family: "Space Mono", monospace;
-      font-size: 10px;
-      letter-spacing: 0.26em;
+      font-size: 11px;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
       color: var(--c-gold);
     }
-    .finale-title {
-      margin: 12px 0 10px;
-      font-family: "Instrument Serif", Georgia, serif;
-      font-size: clamp(38px, 5.4vw, 72px);
+    .closing-statement {
+      margin: 0;
+      font-family: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(32px, 4.2vw, 56px);
       font-weight: 400;
-      line-height: 0.98;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
       color: var(--c-cream);
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 184, 28, 0.25);
     }
-    .finale-title em { color: var(--c-gold); font-style: italic; }
-    .finale-sub {
-      max-width: 580px;
-      margin: 0 auto;
-      color: #b8bdd0;
-      font-size: 14px;
-      line-height: 1.7;
+    .closing-statement em {
+      font-style: italic;
+      color: var(--c-gold);
     }
-
-    .finale-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
+    .closing-deva-sub {
+      margin: 0;
+      font-family: "Noto Serif Devanagari", "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(15px, 1.3vw, 19px);
+      font-style: italic;
+      color: rgba(250, 245, 236, 0.72);
+      letter-spacing: 0.04em;
     }
-    @media (max-width: 980px) {
-      .finale-grid { grid-template-columns: 1fr; }
-    }
-    .studio-card {
-      background: rgba(14, 17, 26, 0.82);
-      border: 1px solid rgba(255, 184, 28, 0.25);
-      border-top: 2px solid var(--c-gold);
-      border-radius: 10px;
-      padding: 24px;
-      backdrop-filter: blur(12px);
+    .closing-saptarangi-rule {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      margin: 10px 0 4px;
     }
-    .studio-card-tag {
+    .closing-saptarangi-rule span {
+      width: 22px;
+      height: 2.5px;
+      border-radius: 99px;
+    }
+    .closing-saptarangi-rule span:nth-child(1) { background: #C62828; }
+    .closing-saptarangi-rule span:nth-child(2) { background: #E65100; }
+    .closing-saptarangi-rule span:nth-child(3) { background: #FFB81C; }
+    .closing-saptarangi-rule span:nth-child(4) { background: #FAF5EC; }
+    .closing-saptarangi-rule span:nth-child(5) { background: #2E7D32; }
+    .closing-saptarangi-rule span:nth-child(6) { background: #1565C0; }
+    .closing-saptarangi-rule span:nth-child(7) { background: #9C27B0; }
+
+    .closing-colophon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 8px;
       font-family: "Space Mono", monospace;
-      font-size: 9.5px;
+      font-size: 10px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
+      color: rgba(250, 245, 236, 0.55);
+    }
+    .closing-back-to-top {
+      background: rgba(255, 184, 28, 0.12);
+      border: 1px solid rgba(255, 184, 28, 0.42);
       color: var(--c-gold);
-    }
-    .studio-card h3 {
-      margin: 0;
-      font-family: "Instrument Serif", serif;
-      font-size: 28px;
-      font-weight: 400;
-      color: #fff;
-    }
-    .studio-card p {
-      margin: 0;
-      font-size: 13px;
-      line-height: 1.6;
-      color: #c6cbdc;
-    }
-    .studio-input {
-      width: 100%;
-      padding: 11px 14px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: rgba(6, 8, 14, 0.85);
-      color: #fff;
-      font: inherit;
-      font-size: 13px;
-    }
-    .studio-input:focus {
-      outline: none;
-      border-color: var(--c-gold);
-      box-shadow: 0 0 0 3px rgba(255, 184, 28, 0.16);
-    }
-    .studio-btn {
-      padding: 11px 16px;
-      border-radius: 6px;
-      border: 1px solid var(--c-gold);
-      background: linear-gradient(135deg, rgba(230, 81, 0, 0.35), rgba(255, 184, 28, 0.22));
-      color: #ffe9b3;
       font-family: "Space Mono", monospace;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.16em;
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
+      padding: 7px 16px;
+      border-radius: 99px;
       cursor: pointer;
       transition: all 0.25s ease;
     }
-    .studio-btn:hover {
-      background: var(--c-gold);
-      color: #08090c;
-      transform: translateY(-1px);
-    }
-    .madal-pad-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 4px;
-    }
-    .madal-pad {
-      padding: 18px 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 184, 28, 0.35);
-      background: rgba(255, 184, 28, 0.08);
-      color: #FAF5EC;
-      font-family: "Space Mono", monospace;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: transform 0.1s ease, background 0.15s ease, box-shadow 0.15s ease;
-    }
-    .madal-pad:active, .madal-pad.hit {
-      transform: scale(0.95);
-      background: rgba(255, 184, 28, 0.35);
-      box-shadow: 0 0 24px rgba(255, 184, 28, 0.55);
-    }
-    #postcardPreview {
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 184, 28, 0.4);
-      background: #090b12;
-      display: block;
+    .closing-back-to-top:hover {
+      background: rgba(255, 184, 28, 0.28);
+      border-color: var(--c-gold);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(255, 184, 28, 0.35);
     }
 
     /* ══════════════════════════════════════════════════════════════════
@@ -4340,56 +4274,33 @@
     </div><!-- /fivedays-sticky -->
   </section>
   <!-- ══════════════════════════════════════════════════════════════════
-       4. INTERACTIVE TIHAR STUDIO: WISH LANTERNS, MADAL PAD & POSTCARD
+       4. THE ETERNAL COVENANT — CLOSING DEDICATION
   ══════════════════════════════════════════════════════════════════ -->
-  <section class="finale-studio" id="tihar-studio" aria-label="Interactive Tihar Studio">
-    <div class="wish-sky-layer" id="wishSkyLayer" aria-hidden="true"></div>
-
-    <div class="finale-inner">
-      <header class="finale-header">
-        <div class="finale-kicker">[ SECTION 04 // INTERACTIVE CELEBRATION STUDIO ]</div>
-        <h2 class="finale-title">Carry the Light<br /><em>Beyond Tonight</em></h2>
-        <p class="finale-sub">Release a golden Akash Deep wish lantern into Kathmandu’s sky, play a Deusi-Bhailo Madal rhythm, or mint a custom gold-foil Shubh Tihar postcard.</p>
-      </header>
-
-      <div class="finale-grid">
-        <!-- Card 1: Akash Deep Wish Lantern -->
-        <div class="studio-card">
-          <span class="studio-card-tag">01 // AKASH DEEP SKY LANTERN</span>
-          <h3>Release a Wish</h3>
-          <p>Write a blessing for your family or sibling. Your glowing lantern rises into the Kathmandu night sky and persists when you return.</p>
-          <input type="text" id="wishNameInput" class="studio-input" maxlength="24" placeholder="Your name (e.g. Pramsu)" />
-          <input type="text" id="wishTextInput" class="studio-input" maxlength="44" placeholder="Your Tihar wish (e.g. Long life & light)" />
-          <button type="button" id="releaseLanternBtn" class="studio-btn">✦ Release Sky Lantern ↑</button>
-          <span id="lanternCountLabel" style="font-family:'Space Mono',monospace;font-size:10px;color:#ffd47a;"></span>
-        </div>
-
-        <!-- Card 2: Synthesized Nepali Madal & Jhyali Pad -->
-        <div class="studio-card">
-          <span class="studio-card-tag">02 // DEUSI-BHAILO RHYTHM LAB</span>
-          <h3>Play the Madal</h3>
-          <p>Tap the pads (or press keys <strong>A, S, D, F</strong>) to play synthesized Nepali <em>Madal</em> bass/treble strokes, <em>Jhyali</em> cymbals, and bronze temple bells.</p>
-          <div class="madal-pad-grid">
-            <button type="button" class="madal-pad" data-drum="dhing">DHING (Bass)<br><small>[ KEY: A ]</small></button>
-            <button type="button" class="madal-pad" data-drum="tang">TANG (Treble)<br><small>[ KEY: S ]</small></button>
-            <button type="button" class="madal-pad" data-drum="jhyali">JHYALI (Cymbal)<br><small>[ KEY: D ]</small></button>
-            <button type="button" class="madal-pad" data-drum="ghanti">GHANTI (Bell)<br><small>[ KEY: F ]</small></button>
-          </div>
-          <button type="button" id="deusiLoopBtn" class="studio-btn">▶ Play Auto Deusi-Bhailo Beat</button>
-        </div>
-
-        <!-- Card 3: Downloadable Gold-Foil Editorial Postcard -->
-        <div class="studio-card">
-          <span class="studio-card-tag">03 // SAPTARANGI POSTCARD</span>
-          <h3>Mint Your Card</h3>
-          <p>Generate a high-resolution, gold-foil <em>Shubh Deepawali</em> editorial greeting card with your name to share with loved ones.</p>
-          <canvas id="postcardPreview" width="960" height="600"></canvas>
-          <input type="text" id="postcardNameInput" class="studio-input" maxlength="28" placeholder="Recipient or Family Name..." />
-          <button type="button" id="downloadPostcardBtn" class="studio-btn">↓ Download PNG Postcard</button>
-        </div>
+  <footer class="tihar-closing-finale" id="tihar-finale" aria-label="Closing Dedication">
+    <div class="closing-glow" aria-hidden="true"></div>
+    <div class="closing-inner">
+      <div class="closing-emblem" aria-hidden="true">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ffd47a" stroke-width="1.3">
+          <path d="M12 2.5c2.8 3.2 4.2 5.7 3 8.2-.7 1.4-2 2.1-3 2.1s-2.3-.7-3-2.1C7.8 8.2 9.2 5.7 12 2.5Z" fill="rgba(255,184,28,0.3)"/>
+          <path d="M3.5 14.5c2.2 3.6 5 5.2 8.5 5.2s6.3-1.6 8.5-5.2c-2.8 1.2-5.6 1.8-8.5 1.8s-5.7-.6-8.5-1.8Z"/>
+        </svg>
+      </div>
+      <div class="closing-kicker">✦ THE ETERNAL COVENANT · यमपञ्चक ✦</div>
+      <h2 class="closing-statement">
+        Every year, we celebrate Tihar for the defeat of death by the bond of brother and sister.
+      </h2>
+      <p class="closing-deva-sub">
+        मृत्युमाथि प्रेमको विजय — दिदी-भाइको पवित्र बन्धन
+      </p>
+      <div class="closing-saptarangi-rule" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="closing-colophon">
+        <span>शुभ तिहार ✦ KATHMANDU VALLEY</span>
+        <button type="button" class="closing-back-to-top" id="closingBackToTopBtn">RETURN TO TOP ↑</button>
       </div>
     </div>
-  </section>
+  </footer>
 
   <!-- Living Ember Cursor Canvas & Okhar Shatter Visual Overlay -->
   <canvas id="emberCursorCanvas" aria-hidden="true"></canvas>
@@ -5073,6 +4984,13 @@
               lightUp();
             }
           }, 650);
+        });
+      }
+
+      const closingTopBtn = document.getElementById('closingBackToTopBtn');
+      if (closingTopBtn) {
+        closingTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       }
     })();
