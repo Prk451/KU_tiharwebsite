@@ -1452,56 +1452,101 @@
       cursor: default;
     }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       3. FIVE DAYS OF TIHAR (YAMAPANCHAK) — 5-PAGE FULL-SCREEN SHOWCASE
-    ═══════════════════════════════════════════════════════════════════ */
-    .fivedays-section {
-      position: relative;
-      height: 560vh; /* 5 full-screen scroll-triggered pages */
-      background: var(--c-obsidian);
-      border-top: 1px solid rgba(255, 184, 28, 0.28);
-    }
+/* ═══════════════════════════════════════════════════════════════════
+   3. FIVE DAYS OF TIHAR — CONTINUOUS VERTICAL SCROLL WITH STICKY TOP BAR
+═══════════════════════════════════════════════════════════════════ */
+.fivedays-section {
+  position: relative;
+  height: auto !important;
+  background: var(--c-obsidian);
+  border-top: 1px solid rgba(255, 184, 28, 0.28);
+}
 
-    .fivedays-sticky {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      height: 100svh;
-      overflow: hidden;
-      background: var(--c-obsidian);
-      color: var(--c-cream);
-      isolation: isolate;
-    }
+.fivedays-sticky {
+  position: relative !important;
+  top: auto !important;
+  width: 100%;
+  height: auto !important;
+  overflow: visible !important;
+  background: var(--c-obsidian);
+  color: var(--c-cream);
+  isolation: isolate;
+}
 
-    /* Top Progress Bar for Five Days Section */
-    .fivedays-progress {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 3px;
-      width: 0%;
-      z-index: 50;
-      background: linear-gradient(90deg, #E65100, #FFB81C, #C066FF);
-      box-shadow: 0 0 14px rgba(255, 184, 28, 0.7);
-    }
+/* Sticky Top Day Selector Bar pinned to top of viewport while scrolling */
+.fivedays-topbar {
+  position: sticky !important;
+  top: 0 !important;
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: 60;
+  padding: 0 clamp(18px, 3.6vw, 54px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(8, 9, 12, 0.92) !important;
+  border-bottom: 1px solid rgba(255, 184, 28, 0.24) !important;
+  backdrop-filter: blur(12px) !important;
+}
 
-    /* Sticky Top Day Selector & Metadata HUD */
-    .fivedays-topbar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 64px;
-      z-index: 40;
-      padding: 0 clamp(18px, 3.6vw, 54px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      background: linear-gradient(180deg, rgba(8, 9, 12, 0.9) 0%, rgba(8, 9, 12, 0.45) 100%);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(10px);
-    }
+.fivedays-progress {
+  position: absolute;
+  bottom: 0;
+  top: auto;
+  left: 0;
+  height: 2.5px;
+  width: 0%;
+  z-index: 65;
+  background: linear-gradient(90deg, #E65100, #FFB81C, #C066FF);
+  box-shadow: 0 0 12px rgba(255, 184, 28, 0.7);
+}
+
+/* Continuous Vertical Stack of All 5 Days */
+.fivedays-stage {
+  position: relative !important;
+  inset: auto !important;
+  display: flex;
+  flex-direction: column;
+  overflow: visible !important;
+}
+
+.tihar-day-page {
+  position: relative !important;
+  inset: auto !important;
+  width: 100%;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 184, 28, 0.22);
+  scroll-margin-top: 64px; /* Prevents sticky topbar from covering day top */
+}
+
+/* Subtle zoom-in polish as each day enters view */
+.tihar-day-page .day-artwork-canvas {
+  transform: scale(1.04);
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tihar-day-page.in-view .day-artwork-canvas {
+  transform: scale(1.0);
+}
+
+/* Ensure lower deck text is always visible in continuous scroll */
+.tihar-day-page .day-deck-left,
+.tihar-day-page .day-deck-right {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.fivedays-watermark,
+.fivedays-footer {
+  display: none !important;
+}
     .fivedays-brand-meta {
       display: flex;
       align-items: center;
@@ -1586,32 +1631,7 @@
       transition: all 0.7s ease;
     }
 
-    /* Stage holding the 5 separate full-screen day pages */
-    .fivedays-stage {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 42px;
-      z-index: 10;
-      overflow: hidden;
-    }
-
-    .tihar-day-page {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      grid-template-rows: 1fr auto;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.7s ease;
-    }
-    .tihar-day-page.active {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-    }
+    /* Stage and day pages now defined in continuous scroll block above */
 
     /* Full-Screen Image Showcase Upper Zone */
     .day-visual-showcase {
@@ -2471,7 +2491,531 @@
       filter: drop-shadow(0 0 4px rgba(255, 184, 28, 0.5));
     }
 
-  </style>
+      /* ══════════════════════════════════════════════════════════════════
+       NEXT-LEVEL UPGRADES: CINEMA GRAIN, SHOCKWAVE, POLISH & FINALE
+    ══════════════════════════════════════════════════════════════════ */
+
+    /* 1. Subtle 35mm Cinema Grain Overlay across entire site */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9990;
+      pointer-events: none;
+      opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* 2. Hero Lighting & Skyline Harmony */
+    .page.celebrating .city-scene {
+      opacity: 0.28 !important;
+      mix-blend-mode: screen;
+      filter: sepia(0.8) saturate(1.8) brightness(0.85);
+    }
+    .page.celebrating {
+      cursor: crosshair;
+    }
+    .diya-shockwave {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9980;
+      border: 2px solid rgba(255, 212, 122, 0.9);
+      box-shadow: 0 0 80px rgba(255, 184, 28, 0.65), inset 0 0 60px rgba(255, 130, 30, 0.45);
+      transform: translate(-50%, -50%) scale(0.05);
+      animation: shockwave-expand 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes shockwave-expand {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(0.05); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(2.8); }
+    }
+
+    /* Hero Scroll Cue */
+    .hero-scroll-cue {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 8;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: rgba(255, 212, 122, 0.82);
+      font-family: "Space Mono", monospace;
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .hero-scroll-cue:hover { color: #fff; transform: translate(-50%, 3px); }
+    .hero-scroll-line {
+      width: 1px;
+      height: 26px;
+      background: linear-gradient(180deg, var(--gold), transparent);
+      animation: scroll-line-pulse 2s ease-in-out infinite;
+    }
+    @keyframes scroll-line-pulse {
+      0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
+      50% { transform: scaleY(1); opacity: 1; }
+    }
+
+    /* 3. Fix Toran Overlap & Story/5-Day Spacing */
+    .section-tihar-garland {
+      opacity: 0.45 !important;
+      height: 24px !important;
+    }
+    .anchor-floating-badge {
+      bottom: calc(35% + 26px) !important;
+    }
+    .story-split-medallion svg,
+    .diya-divider-emblem svg {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* 4. Upgraded 5-Day Bullet Readability */
+    .day-bullet-list {
+      gap: 6px !important;
+    }
+    .day-bullet-list li {
+      font-size: 12.2px !important;
+      line-height: 1.48 !important;
+      padding-left: 16px !important;
+    }
+    .day-bullet-list li.bullet-diya::before {
+      content: "◆" !important;
+      font-size: 8px !important;
+      top: 3px !important;
+      color: #ff9800 !important;
+      text-shadow: 0 0 8px rgba(255, 184, 28, 0.85) !important;
+    }
+
+    /* 5. Ember Cursor Trail Canvas */
+    #emberCursorCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9985;
+    }
+
+    /* 6. Interactive Okhar (Walnut) Shatter Overlay */
+    .okhar-ritual-toast {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.85);
+      z-index: 9995;
+      padding: 26px 34px;
+      border-radius: 14px;
+      background: rgba(10, 12, 20, 0.94);
+      border: 1px solid rgba(255, 184, 28, 0.65);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.85), 0 0 45px rgba(255, 184, 28, 0.28);
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .okhar-ritual-toast.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .okhar-ritual-toast svg {
+      width: 110px;
+      height: 90px;
+      overflow: visible;
+    }
+    .okhar-half {
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .okhar-ritual-toast.cracked .okhar-left { transform: translate(-22px, -8px) rotate(-24deg); }
+    .okhar-ritual-toast.cracked .okhar-right { transform: translate(22px, 8px) rotate(24deg); }
+
+    /* 7. SECTION 4: WISH LANTERN WALL, MADAL STUDIO & POSTCARD GENERATOR */
+    .finale-studio {
+      position: relative;
+      min-height: 100svh;
+      padding: clamp(72px, 10vh, 110px) clamp(20px, 5vw, 72px) 90px;
+      background:
+        radial-gradient(ellipse at 50% 10%, rgba(255, 168, 38, 0.16) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 85%, rgba(192, 102, 255, 0.12) 0%, transparent 50%),
+        #07080d;
+      border-top: 1px solid rgba(255, 184, 28, 0.35);
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .wish-sky-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .wish-lantern-float {
+      position: absolute;
+      bottom: -80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      animation: wish-rise 18s linear forwards;
+    }
+    .wish-lantern-body {
+      width: 34px;
+      height: 46px;
+      border-radius: 10px 10px 5px 5px;
+      background: radial-gradient(circle at 50% 72%, #fff8d6 0%, #ffb84d 48%, #d84315 92%);
+      box-shadow: 0 0 28px rgba(255, 184, 28, 0.75);
+    }
+    .wish-lantern-tag {
+      padding: 3px 9px;
+      border-radius: 99px;
+      background: rgba(8, 9, 14, 0.78);
+      border: 1px solid rgba(255, 212, 122, 0.45);
+      color: #ffe8ad;
+      font-family: "Space Mono", monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+    @keyframes wish-rise {
+      0% { transform: translate3d(0, 0, 0) scale(0.8); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 0.95; }
+      100% { transform: translate3d(var(--wdrift, 40px), -115vh, 0) scale(0.65); opacity: 0; }
+    }
+
+    .finale-inner {
+      position: relative;
+      z-index: 5;
+      max-width: 1220px;
+      margin: 0 auto;
+    }
+    .finale-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .finale-kicker {
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+    .finale-title {
+      margin: 12px 0 10px;
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(38px, 5.4vw, 72px);
+      font-weight: 400;
+      line-height: 0.98;
+      color: var(--c-cream);
+    }
+    .finale-title em { color: var(--c-gold); font-style: italic; }
+    .finale-sub {
+      max-width: 580px;
+      margin: 0 auto;
+      color: #b8bdd0;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .finale-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+    @media (max-width: 980px) {
+      .finale-grid { grid-template-columns: 1fr; }
+    }
+    .studio-card {
+      background: rgba(14, 17, 26, 0.82);
+      border: 1px solid rgba(255, 184, 28, 0.25);
+      border-top: 2px solid var(--c-gold);
+      border-radius: 10px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .studio-card-tag {
+      font-family: "Space Mono", monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+    .studio-card h3 {
+      margin: 0;
+      font-family: "Instrument Serif", serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: #fff;
+    }
+    .studio-card p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #c6cbdc;
+    }
+    .studio-input {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(6, 8, 14, 0.85);
+      color: #fff;
+      font: inherit;
+      font-size: 13px;
+    }
+    .studio-input:focus {
+      outline: none;
+      border-color: var(--c-gold);
+      box-shadow: 0 0 0 3px rgba(255, 184, 28, 0.16);
+    }
+    .studio-btn {
+      padding: 11px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--c-gold);
+      background: linear-gradient(135deg, rgba(230, 81, 0, 0.35), rgba(255, 184, 28, 0.22));
+      color: #ffe9b3;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .studio-btn:hover {
+      background: var(--c-gold);
+      color: #08090c;
+      transform: translateY(-1px);
+    }
+    .madal-pad-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .madal-pad {
+      padding: 18px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 184, 28, 0.35);
+      background: rgba(255, 184, 28, 0.08);
+      color: #FAF5EC;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.1s ease, background 0.15s ease, box-shadow 0.15s ease;
+    }
+    .madal-pad:active, .madal-pad.hit {
+      transform: scale(0.95);
+      background: rgba(255, 184, 28, 0.35);
+      box-shadow: 0 0 24px rgba(255, 184, 28, 0.55);
+    }
+    #postcardPreview {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 184, 28, 0.4);
+      background: #090b12;
+      display: block;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       JOHN BOLSTER Z-AXIS ZOOM, FULL-VISUAL MINIMALISM & SLOW DIYA RING
+    ══════════════════════════════════════════════════════════════════ */
+
+    /* 1. Slow, majestic diya light shockwave */
+    .diya-shockwave {
+      border: 1.5px solid rgba(255, 212, 122, 0.78) !important;
+      box-shadow: 0 0 110px rgba(255, 184, 28, 0.5), inset 0 0 80px rgba(255, 140, 40, 0.3) !important;
+      animation: shockwave-expand-slow 3.8s cubic-bezier(0.12, 0.72, 0.18, 1) forwards !important;
+    }
+    @keyframes shockwave-expand-slow {
+      0%   { opacity: 0.95; transform: translate(-50%, -50%) scale(0.04); }
+      65%  { opacity: 0.55; }
+      100% { opacity: 0;    transform: translate(-50%, -50%) scale(2.85); }
+    }
+
+    /* 2. Full-Visual, Borderless Story Stage (Strip Clutter) */
+    .story-sticky .section-tihar-garland,
+    .fivedays-sticky .section-tihar-garland,
+    .anchor-floating-badge,
+    .story-inset-card,
+    .diya-divider-emblem,
+    .story-split-tag,
+    .day-floating-badge,
+    .anchor-fullbleed-art::after,
+    .day-artwork-canvas::after {
+      display: none !important;
+    }
+
+    /* Remove heavy borders & boxes on HUD, Rail, Splits & Cards */
+    .crow-rail,
+    .codex-topbar,
+    .codex-footer,
+    .fivedays-topbar,
+    .fivedays-footer,
+    .story-split-half,
+    .story-triptych-col {
+      border-color: transparent !important;
+      background: transparent !important;
+    }
+    .codex-topbar {
+      backdrop-filter: none !important;
+    }
+    .story-section,
+    .fivedays-section {
+      border-top: none !important;
+    }
+
+    /* 3. Z-Axis Zoom Depth Setup for 14-Plate Story */
+    .codex-stage {
+      left: 0 !important;
+      bottom: 0 !important;
+      perspective: 1200px;
+    }
+    .codex-chapter {
+      /* Driven continuously by JS Z-zoom engine below */
+      transition: none !important;
+      will-change: transform, opacity, filter;
+      transform-origin: center center;
+    }
+    .codex-chapter .anchor-fullbleed-art {
+      transform: none !important;
+      transition: none !important;
+    }
+
+    /* Lighter gradient scrim so photography stays vibrant & open */
+    .anchor-fullbleed-scrim,
+    .day-scrim {
+      background: linear-gradient(
+        180deg,
+        rgba(8, 9, 12, 0.45) 0%,
+        rgba(8, 9, 12, 0.0) 28%,
+        rgba(8, 9, 12, 0.08) 58%,
+        rgba(8, 9, 12, 0.82) 100%
+      ) !important;
+    }
+
+    /* 4. Airy, Low-Text Lower Deck (No heavy black box or thick lines) */
+    .ch-lower-deck {
+      min-height: auto !important;
+      padding: 0 clamp(28px, 6vw, 96px) clamp(54px, 7vh, 84px) !important;
+      background: none !important;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.78fr) !important;
+      align-items: end !important;
+      gap: clamp(20px, 4vw, 64px) !important;
+    }
+    .ch-lower-deck::before,
+    .ch-lower-deck::after {
+      display: none !important;
+    }
+    .ch-kicker {
+      opacity: 0.78 !important;
+      transform: none !important;
+      font-size: 9px !important;
+    }
+    .ch-giant-title {
+      opacity: 1 !important;
+      transform: none !important;
+      font-size: clamp(46px, 6.2vw, 92px) !important;
+      text-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
+    }
+    .ch-deck-right {
+      opacity: 1 !important;
+      transform: none !important;
+      padding-top: 0 !important;
+    }
+    .ch-micro-poetry {
+      font-size: clamp(13.5px, 1.1vw, 15.5px) !important;
+      line-height: 1.55 !important;
+      max-width: 420px !important;
+      color: rgba(250, 245, 236, 0.85) !important;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
+    }
+
+    /* 5. Cleaner, Borderless 5-Days Section */
+    .day-lower-deck {
+      background: none !important;
+      backdrop-filter: none !important;
+      padding: 0 clamp(24px, 5vw, 72px) 52px !important;
+    }
+    .day-lower-deck::before,
+    .day-lower-deck::after {
+      display: none !important;
+    }
+    .day-narrative-card {
+      background: rgba(8, 9, 12, 0.42) !important;
+      border: none !important;
+      border-left: 1px solid rgba(255, 184, 28, 0.45) !important;
+      border-radius: 0 !important;
+      padding: 8px 14px !important;
+    }
+    .day-bullet-list li:nth-child(n+3) {
+      display: none !important; /* Keep only 2 crisp points per card */
+    }
+
+
+    /* ═══════════════════════════════════════════════════════════════════
+       SLOWER TIHAR LIGHT-UP, ELEMENT REMOVALS & VAULT REMOVAL
+    ═══════════════════════════════════════════════════════════════════ */
+    /* Slower, gradual Tihar light-up across the hero scene */
+    .page,
+    .festival-backdrop,
+    .festival-backdrop::after,
+    .city-scene,
+    .window,
+    .city-warmth,
+    .string-lights,
+    .jhilimili-strand,
+    .ground-glow,
+    .courtyard-rangoli,
+    .sky-lantern {
+      transition-duration: 3.6s !important;
+      transition-timing-function: cubic-bezier(0.22, 0.78, 0.25, 1) !important;
+    }
+
+    .flame {
+      transition: opacity 1.4s ease, transform 1.8s cubic-bezier(0.22, 0.78, 0.25, 1) !important;
+    }
+
+    /* Remove top bar items shown in 3rd image */
+    header.topbar,
+    #openPhotoArchiveBtn,
+    #openPhotoArchiveBtn2 {
+      display: none !important;
+    }
+
+    /* Remove bottom hero text & stamp shown in 1st image */
+    .hero-scroll-cue,
+    .celebration-stamp,
+    .bottom-caption {
+      display: none !important;
+    }
+
+    /* Hide 12-Photo Vault / Lightbox modals shown in 2nd image */
+    #archivalLightbox,
+    #archivalGalleryModal {
+      display: none !important;
+    }
+
+    .story-full-photo,
+    .custom-day-img,
+    .story-inset-card img,
+    .story-split-half img,
+    .story-triptych-col img {
+      cursor: default !important;
+    }
+
+</style>
 
 </head>
 <body>
@@ -2524,6 +3068,26 @@
 
     
 
+        <!-- Restored Editorial Topbar (Connects to Audio, Story, 5-Days & 12-Photo Vault) -->
+    <header class="topbar">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M12 3c2.8 3.2 4.2 5.7 3 8.2-.7 1.4-2 2.1-3 2.1s-2.3-.7-3-2.1C7.8 8.7 9.2 6.2 12 3Z"/>
+            <path d="M4.5 14.5c2 3.2 4.5 4.8 7.5 4.8s5.5-1.6 7.5-4.8c-2.4 1.1-5 1.7-7.5 1.7s-5.1-.6-7.5-1.7Z"/>
+          </svg>
+        </span>
+        <span class="brand-name">Yamapanchak Archive</span>
+      </a>
+      <nav class="top-right-group" aria-label="Primary Navigation">
+        <a class="story-jump-link" href="#story">14-Plate Legend</a>
+        <a class="story-jump-link" href="#five-days">5 Days of Tihar</a>
+        <a class="story-jump-link alt-pill" href="#tihar-studio">Lanterns &amp; Postcard</a>
+        <button type="button" class="photo-vault-badge-btn" id="openPhotoArchiveBtn">✦ 12-Photo Vault</button>
+        <button type="button" class="tihar-audio-btn" id="tiharAudioToggle" aria-pressed="false">♫ Temple Bells</button>
+      </nav>
+    </header>
+
     <main class="hero" id="top">
       <div class="eyebrow">The festival of lights</div>
       <h1 id="headline">The city is waiting<br />for <span class="gold">one spark.</span></h1>
@@ -2561,6 +3125,10 @@
         <button class="replay" id="replay" type="button">Start the night again ↺</button>
       </div>
     </main>
+    <a class="hero-scroll-cue" href="#story" aria-label="Scroll to the 14-Plate Story of Tihar">
+      <span>Scroll to Enter Yamapanchak</span>
+      <span class="hero-scroll-line"></span>
+    </a>
 
     <div class="fireworks" id="fireworks" aria-hidden="true"></div>
 
@@ -2886,7 +3454,7 @@
         <article class="codex-chapter layout-anchor active" data-index="0" data-watermark="यमपञ्चक" data-stamp="[ यमपञ्चक ]">
           <div class="ch-upper-visual">
             <div class="anchor-fullbleed-art">
-              <img class="story-full-photo" src="photoes/yamraj.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='yamraj.jpg';}" data-archive-id="yamraj" alt="Yamaraj, the God of Death, riding his horned water buffalo with spiked mace and fiery noose" style="object-position: center 25%;" />
+              <img class="story-full-photo" src="photoes/Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg';}" data-archive-id="Gemini_Generated_Image_4bppvg4bppvg4bpp" alt="The ailing Kirati King Bali Hang lying on bed while his devoted sister Jamuna stays faithful vigil by the oil lamp" style="object-position: center 25%;" />
             </div>
             <div class="anchor-fullbleed-scrim"></div>
             <div class="anchor-floating-badge">
@@ -2895,10 +3463,10 @@
               <span>YAMARAJ · GOD OF DEATH VS. SIBLING BOND</span>
             </div>
             <div class="story-inset-card">
-              <img src="photoes/image_d6f43d5e.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_d6f43d5e.jpg';}" data-archive-id="image_d6f43d5e" alt="Diya-lit Kathmandu courtyard welcoming Tihar" />
+              <img src="photoes/Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg';}" data-archive-id="Gemini_Generated_Image_4bppvg4bppvg4bpp" alt="Sister Jamuna holding King Bali Hang's hand by the diya" />
               <div class="story-inset-caption">
-                <span>FIVE NIGHTS OF DIYAS</span>
-                <span>✦ तिहार</span>
+                <span>JAMUNA'S VIGIL</span>
+                <span>✦ बलिहाङ पहरा</span>
               </div>
             </div>
           </div>
@@ -2924,11 +3492,11 @@
               <div class="story-split-showcase">
                 <div class="story-split-half">
                   <span class="story-split-tag">I. YAMARAJ — THE GOD OF DEATH</span>
-                  <img src="photoes/yamraj.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='yamraj.jpg';}" data-archive-id="yamraj" alt="Yamaraj, the God of Death" style="object-position: center 25%;" />
+                  <img src="photoes/Gemini_Generated_Image_d6115rd6115rd611.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_d6115rd6115rd611.jpg';}" data-archive-id="Gemini_Generated_Image_d6115rd6115rd611" alt="Lord Yamaraj on his fiery water buffalo wielding his mace and noose" style="object-position: center 25%;" />
                 </div>
                 <div class="story-split-half">
                   <span class="story-split-tag">II. SACRED BOND OF SISTER &amp; BROTHER</span>
-                  <img src="photoes/image_e8cf2ce1.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_e8cf2ce1.jpg';}" data-archive-id="image_e8cf2ce1" alt="Sacred bond between a sister applying Saptarangi Tika to her brother on the other side" />
+                  <img src="photoes/Gemini_Generated_Image_nr3oamnr3oamnr3o.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_nr3oamnr3oamnr3o.jpg';}" data-archive-id="Gemini_Generated_Image_nr3oamnr3oamnr3o" alt="Sacred bond between a sister applying Saptarangi Tika to her brother on the other side" />
                 </div>
               </div>
               <div class="story-split-medallion" aria-hidden="true">
@@ -2960,7 +3528,7 @@
         <article class="codex-chapter layout-anchor" data-index="2" data-watermark="बलिहाङ" data-stamp="[ बलिहाङ ]">
           <div class="ch-upper-visual">
             <div class="anchor-fullbleed-art">
-              <img class="story-full-photo" src="photoes/image_7d3e96ab.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_7d3e96ab.jpg';}" data-archive-id="image_7d3e96ab" alt="Kirati King Bali Hang lying gravely ill while his sister Jamuna holds his hands beside a flickering brass diya" style="object-position: center 35%;" />
+              <img class="story-full-photo" src="photoes/Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg';}" data-archive-id="Gemini_Generated_Image_4bppvg4bppvg4bpp" alt="Kirati King Bali Hang lying gravely ill while his sister Jamuna holds his hands beside a flickering brass diya" style="object-position: center 30%;" />
             </div>
             <div class="anchor-fullbleed-scrim"></div>
             <div class="anchor-floating-badge">
@@ -2987,7 +3555,7 @@
         <article class="codex-chapter layout-anchor" data-index="3" data-watermark="काग" data-stamp="[ काग दूत ]">
           <div class="ch-upper-visual">
             <div class="anchor-fullbleed-art">
-              <img class="story-full-photo" src="photoes/image_cb7eb992.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_cb7eb992.jpg';}" data-archive-id="image_cb7eb992" alt="Yamaraj's first messenger, the crow, perched atop a carved Newari wooden torana doorway in Kathmandu" style="object-position: center 22%;" />
+              <img class="story-full-photo" src="photoes/Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg';}" data-archive-id="Gemini_Generated_Image_fjl7gifjl7gifjl7" alt="Yamaraj's first messenger, the crow, perched on a rooftop beside sel roti overlooking Kathmandu at sunrise" style="object-position: center 35%;" />
             </div>
             <div class="anchor-fullbleed-scrim"></div>
             <div class="anchor-floating-badge">
@@ -2996,7 +3564,7 @@
               <span>THE CROW (काग) · HERALD OF BIRTHS &amp; DEATHS</span>
             </div>
             <div class="story-inset-card">
-              <img src="photoes/image_10f99f38.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_10f99f38.jpg';}" data-archive-id="image_10f99f38" alt="Crow at dawn beside a tapari leaf bowl of sel roti in Kathmandu" />
+              <img src="photoes/Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg';}" data-archive-id="Gemini_Generated_Image_fjl7gifjl7gifjl7" alt="Crow at dawn beside a tapari leaf bowl of sel roti in Kathmandu" />
               <div class="story-inset-caption">
                 <span>KAAG TIHAR OFFERING</span>
                 <span>✦ काग</span>
@@ -3021,7 +3589,7 @@
         <article class="codex-chapter layout-anchor" data-index="4" data-watermark="कुकुर" data-stamp="[ चारआँखे कुकुर ]">
           <div class="ch-upper-visual">
             <div class="anchor-fullbleed-art">
-              <img class="story-full-photo" src="photoes/image_a2bfaf99.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_a2bfaf99.jpg';}" data-archive-id="image_a2bfaf99" alt="Yamaraj's second messenger, the mythical four-eyed Himalayan dog standing in mountain mist" style="object-position: center 24%;" />
+              <img class="story-full-photo" src="photoes/Gemini_Generated_Image_xnthfaxnthfaxnth.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_xnthfaxnthfaxnth.jpg';}" data-archive-id="Gemini_Generated_Image_xnthfaxnthfaxnth" alt="Yamaraj's second messenger, the mythical four-eyed Himalayan dog standing vigil on carved stone threshold" style="object-position: center 30%;" />
             </div>
             <div class="anchor-fullbleed-scrim"></div>
             <div class="anchor-floating-badge">
@@ -3030,7 +3598,7 @@
               <span>THE FOUR-EYED DOG (चारआँखे कुकुर)</span>
             </div>
             <div class="story-inset-card">
-              <img src="photoes/image_1baa28ab.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_1baa28ab.jpg';}" data-archive-id="image_1baa28ab" alt="Nepali guardian dog honored with Sayapatri marigold garland and red tika" style="object-position: center 20%;" />
+              <img src="photoes/Gemini_Generated_Image_c8orohc8orohc8or.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_c8orohc8orohc8or.jpg';}" data-archive-id="Gemini_Generated_Image_c8orohc8orohc8or" alt="Nepali guardian dog honored with Sayapatri marigold garland and red tika" style="object-position: center 20%;" />
               <div class="story-inset-caption">
                 <span>KUKUR TIHAR HONOUR</span>
                 <span>✦ कुकुर</span>
@@ -3058,15 +3626,15 @@
               <div class="story-triptych-showcase">
                 <div class="story-triptych-col">
                   <span class="story-split-tag">I. FIRST ENVOY TURNED BACK</span>
-                  <img src="photoes/image_cb7eb992.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_cb7eb992.jpg';}" data-archive-id="image_cb7eb992" alt="The messenger crow atop the carved doorway" />
+                  <img src="photoes/Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg';}" data-archive-id="Gemini_Generated_Image_fjl7gifjl7gifjl7" alt="The messenger crow on the rooftop with sel roti" />
                 </div>
                 <div class="story-triptych-col">
                   <span class="story-split-tag">II. JAMUNA’S UNYIELDING VIGIL</span>
-                  <img src="photoes/image_7d3e96ab.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_7d3e96ab.jpg';}" data-archive-id="image_7d3e96ab" alt="Jamuna protecting her ailing brother Bali Hang by diya light" />
+                  <img src="photoes/Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg';}" data-archive-id="Gemini_Generated_Image_4bppvg4bppvg4bpp" alt="Jamuna protecting her ailing brother Bali Hang by diya light" />
                 </div>
                 <div class="story-triptych-col">
                   <span class="story-split-tag">III. SECOND ENVOY TURNED BACK</span>
-                  <img src="photoes/image_a2bfaf99.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_a2bfaf99.jpg';}" data-archive-id="image_a2bfaf99" alt="The four-eyed messenger hound halted at the threshold" />
+                  <img src="photoes/Gemini_Generated_Image_xnthfaxnthfaxnth.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_xnthfaxnthfaxnth.jpg';}" data-archive-id="Gemini_Generated_Image_xnthfaxnthfaxnth" alt="The four-eyed messenger hound standing at the threshold" />
                 </div>
               </div>
             </div>
@@ -3095,7 +3663,7 @@
         <article class="codex-chapter layout-anchor" data-index="6" data-watermark="यमराज" data-stamp="[ यमराज आगमन ]">
           <div class="ch-upper-visual">
             <div class="anchor-fullbleed-art">
-              <img class="story-full-photo" src="photoes/yamraj.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='yamraj.jpg';}" data-archive-id="yamraj" alt="Yamaraj arrives in person riding his horned water buffalo" style="object-position: center 25%;" />
+              <img class="story-full-photo" src="photoes/Gemini_Generated_Image_d6115rd6115rd611.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_d6115rd6115rd611.jpg';}" data-archive-id="Gemini_Generated_Image_d6115rd6115rd611" alt="Lord Yamaraj arrives in person riding his horned water buffalo with mace and noose" style="object-position: center 25%;" />
             </div>
             <div class="anchor-fullbleed-scrim"></div>
             <div class="anchor-floating-badge">
@@ -3125,11 +3693,11 @@
               <div class="story-split-showcase">
                 <div class="story-split-half">
                   <span class="story-split-tag">I. JAMUNA’S RESPECTFUL PETITION</span>
-                  <img src="photoes/image_7d3e96ab.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_7d3e96ab.jpg';}" data-archive-id="image_7d3e96ab" alt="Jamuna sitting beside her brother by candlelight" />
+                  <img src="photoes/Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg';}" data-archive-id="Gemini_Generated_Image_4bppvg4bppvg4bpp" alt="Jamuna sitting beside her brother by candlelight" />
                 </div>
                 <div class="story-split-half">
                   <span class="story-split-tag">II. THE SACRED THRESHOLD OF HOSPITALITY</span>
-                  <img src="photoes/image_d6f43d5e.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_d6f43d5e.jpg';}" data-archive-id="image_d6f43d5e" alt="Carved Nepali doorway draped in marigold garlands and glowing diyas" />
+                  <img src="photoes/Gemini_Generated_Image_5cm75cm75cm75cm7.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_5cm75cm75cm75cm7.jpg';}" data-archive-id="Gemini_Generated_Image_5cm75cm75cm75cm7" alt="Carved Nepali doorway draped in marigold garlands, red footprints, and glowing diyas" />
                 </div>
               </div>
               <div class="story-split-medallion" aria-hidden="true">
@@ -3161,7 +3729,7 @@
         <article class="codex-chapter layout-anchor" data-index="8" data-watermark="सप्तरङ्गी" data-stamp="[ सप्तरङ्गी पूजा ]">
           <div class="ch-upper-visual">
             <div class="anchor-fullbleed-art" id="pujaPhotoClickArea" style="cursor:pointer;" title="Click to perform the three Bhai Tika puja rites">
-              <img class="story-full-photo" src="photoes/image_ddd19989.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_ddd19989.jpg';}" data-archive-id="image_ddd19989" alt="Overhead close-up of a traditional brass Tihar puja thali with seven bowls of Saptarangi Tika powders, brass kalash with mango leaves, incense smoke, walnuts, and lit diyas" style="object-position: center 45%;" />
+              <img class="story-full-photo" src="photoes/Gemini_Generated_Image_flim0iflim0iflim.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_flim0iflim0iflim.jpg';}" data-archive-id="Gemini_Generated_Image_flim0iflim0iflim" alt="Overhead close-up of a traditional brass Tihar puja thali with seven bowls of Saptarangi Tika powders, brass kalash with mango leaves, incense smoke, walnuts, and lit diyas" style="object-position: center 45%;" />
             </div>
             <div class="anchor-fullbleed-scrim"></div>
             <div class="puja-overlay-badges">
@@ -3207,11 +3775,11 @@
               <div class="story-split-showcase">
                 <div class="story-split-half">
                   <span class="story-split-tag">I. SAPTARANGI TIKA &amp; SACRED KALASH WATER</span>
-                  <img src="photoes/image_ddd19989.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_ddd19989.jpg';}" data-archive-id="image_ddd19989" alt="Seven colors of Saptarangi Tika and brass water kalash on the puja thali" />
+                  <img src="photoes/Gemini_Generated_Image_flim0iflim0iflim.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_flim0iflim0iflim.jpg';}" data-archive-id="Gemini_Generated_Image_flim0iflim0iflim" alt="Seven colors of Saptarangi Tika and brass water kalash on the puja thali" />
                 </div>
                 <div class="story-split-half">
                   <span class="story-split-tag">II. THE ROYAL-PURPLE MAKHMALI BLOSSOM</span>
-                  <img src="photoes/image_99fb119f.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_99fb119f.jpg';}" data-archive-id="image_99fb119f" alt="Royal-purple Makhmali blossoms woven with golden thread" />
+                  <img src="photoes/Gemini_Generated_Image_1kxgpt1kxgpt1kxg.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_1kxgpt1kxgpt1kxg.jpg';}" data-archive-id="Gemini_Generated_Image_1kxgpt1kxgpt1kxg" alt="Royal-purple Makhmali blossoms woven with golden thread" />
                 </div>
               </div>
               <div class="story-split-medallion" aria-hidden="true">
@@ -3257,11 +3825,11 @@
               <div class="story-split-showcase">
                 <div class="story-split-half">
                   <span class="story-split-tag">I. YAMARAJ BOUND BY HOSPITALITY</span>
-                  <img src="photoes/yamraj.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='yamraj.jpg';}" data-archive-id="yamraj" alt="Yamaraj bound by divine covenant" style="object-position: center 25%;" />
+                  <img src="photoes/Gemini_Generated_Image_d6115rd6115rd611.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_d6115rd6115rd611.jpg';}" data-archive-id="Gemini_Generated_Image_d6115rd6115rd611" alt="Yamaraj bound by divine covenant" style="object-position: center 25%;" />
                 </div>
                 <div class="story-split-half">
                   <span class="story-split-tag">II. THE SEALED PUJA COVENANT</span>
-                  <img src="photoes/image_ddd19989.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_ddd19989.jpg';}" data-archive-id="image_ddd19989" alt="Sacred brass Tihar puja thali" />
+                  <img src="photoes/Gemini_Generated_Image_flim0iflim0iflim.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_flim0iflim0iflim.jpg';}" data-archive-id="Gemini_Generated_Image_flim0iflim0iflim" alt="Sacred brass Tihar puja thali" />
                 </div>
               </div>
               <div class="story-split-medallion" aria-hidden="true">
@@ -3293,7 +3861,7 @@
         <article class="codex-chapter layout-anchor" id="chapterMakhmali" data-index="11" data-watermark="मखमली" data-stamp="[ मखमली ]">
           <div class="ch-upper-visual makhmali-veil-stage" id="makhmaliVeilTrigger" title="Click or hover to unveil the unfading Makhmali flower">
             <div class="anchor-fullbleed-art">
-              <img class="story-full-photo makhmali-photo-bloom" src="photoes/image_99fb119f.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_99fb119f.jpg';}" data-archive-id="image_99fb119f" alt="Macro dark-studio photograph of vibrant royal-purple Makhmali (Gomphrena globosa) blossoms woven with shimmering golden threads" style="object-position: center 40%;" />
+              <img class="story-full-photo makhmali-photo-bloom" src="photoes/Gemini_Generated_Image_1kxgpt1kxgpt1kxg.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_1kxgpt1kxgpt1kxg.jpg';}" data-archive-id="Gemini_Generated_Image_1kxgpt1kxgpt1kxg" alt="Macro dark-studio photograph of vibrant royal-purple Makhmali (Gomphrena globosa) blossoms woven with shimmering golden threads" style="object-position: center 40%;" />
             </div>
             <div class="anchor-fullbleed-scrim"></div>
             <div class="anchor-floating-badge">
@@ -3321,7 +3889,7 @@
         <article class="codex-chapter layout-anchor" data-index="12" data-watermark="प्रतीक्षा" data-stamp="[ वर्षौंसम्म प्रतीक्षा ]">
           <div class="ch-upper-visual">
             <div class="anchor-fullbleed-art">
-              <img class="story-full-photo" src="photoes/image_10f99f38.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_10f99f38.jpg';}" data-archive-id="image_10f99f38" alt="Yamaraj's messenger crow watching over Kathmandu rooftops at golden dawn year after year" style="object-position: center 38%;" />
+              <img class="story-full-photo" src="photoes/Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg';}" data-archive-id="Gemini_Generated_Image_fjl7gifjl7gifjl7" alt="Yamaraj's messenger crow watching over Kathmandu rooftops at golden dawn year after year" style="object-position: center 38%;" />
             </div>
             <div class="anchor-fullbleed-scrim"></div>
             <div class="anchor-floating-badge">
@@ -3330,7 +3898,7 @@
               <span>THE CROW CHECKS THE FLOWER EVERY DAY, YEAR AFTER YEAR</span>
             </div>
             <div class="story-inset-card">
-              <img src="photoes/image_99fb119f.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_99fb119f.jpg';}" data-archive-id="image_99fb119f" alt="The Makhmali blossom still vibrant and unwithered" />
+              <img src="photoes/Gemini_Generated_Image_1kxgpt1kxgpt1kxg.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_1kxgpt1kxgpt1kxg.jpg';}" data-archive-id="Gemini_Generated_Image_1kxgpt1kxgpt1kxg" alt="The Makhmali blossom still vibrant and unwithered" />
               <div class="story-inset-caption">
                 <span>STATUS: STILL UNWITHERED</span>
                 <span>✦ ∞ YEARS</span>
@@ -3355,7 +3923,7 @@
         <article class="codex-chapter layout-anchor" data-index="13" data-watermark="भाइटीका" data-stamp="[ दीर्घायु आशीर्वाद ]">
           <div class="ch-upper-visual">
             <div class="anchor-fullbleed-art">
-              <img class="story-full-photo" src="photoes/image_e8cf2ce1.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_e8cf2ce1.jpg';}" data-archive-id="image_e8cf2ce1" alt="Sister applying seven-colored Saptarangi Tika onto her brother's forehead while he wears a traditional Nepali Dhaka topi and Makhmali and Sayapatri garlands" style="object-position: center 26%;" />
+              <img class="story-full-photo" src="photoes/Gemini_Generated_Image_nr3oamnr3oamnr3o.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_nr3oamnr3oamnr3o.jpg';}" data-archive-id="Gemini_Generated_Image_nr3oamnr3oamnr3o" alt="Sister applying seven-colored Saptarangi Tika onto her brother's forehead while he wears a traditional Nepali Dhaka topi and Makhmali and Sayapatri garlands" style="object-position: center 26%;" />
             </div>
             <div class="anchor-fullbleed-scrim"></div>
             <div class="anchor-floating-badge">
@@ -3460,7 +4028,7 @@
         <article class="tihar-day-page active" data-day-index="0" data-day-watermark="काग तिहार">
           <div class="day-visual-showcase">
             <div class="day-artwork-canvas">
-              <img class="custom-day-img story-full-photo" src="photoes/image_10f99f38.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_10f99f38.jpg';}" data-archive-id="image_10f99f38" alt="Kaag Tihar in Kathmandu: a crow at golden dawn on a brick rooftop beside a tapari leaf plate of sel roti and sweets overlooking misty temples" style="display:block; object-position: center 40%;" />
+              <img class="custom-day-img story-full-photo" src="photoes/Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg';}" data-archive-id="Gemini_Generated_Image_fjl7gifjl7gifjl7" alt="Kaag Tihar in Kathmandu: a crow at golden dawn on a brick rooftop beside a plate of sel roti and sweets overlooking misty temples" style="display:block; object-position: center 35%;" />
             </div>
             <div class="day-scrim"></div>
             <div class="day-floating-badge">
@@ -3471,9 +4039,9 @@
               <span>KATHMANDU ROOFTOPS AT DAWN</span>
             </div>
             <div class="story-inset-card">
-              <img src="photoes/image_cb7eb992.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_cb7eb992.jpg';}" data-archive-id="image_cb7eb992" alt="Crow perched atop a carved Newari wooden torana doorway" />
+              <img src="photoes/Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg';}" data-archive-id="Gemini_Generated_Image_fjl7gifjl7gifjl7" alt="Crow on rooftop overlooking Kathmandu at dawn" />
               <div class="story-inset-caption">
-                <span>ENVOY ON NEWARI TORANA</span>
+                <span>ENVOY OVER KATHMANDU</span>
                 <span>✦ काग तिहार</span>
               </div>
             </div>
@@ -3517,7 +4085,7 @@
         <article class="tihar-day-page" data-day-index="1" data-day-watermark="कुकुर तिहार">
           <div class="day-visual-showcase">
             <div class="day-artwork-canvas">
-              <img class="custom-day-img story-full-photo" src="photoes/image_1baa28ab.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_1baa28ab.jpg';}" data-archive-id="image_1baa28ab" alt="Kukur Tihar in Nepal: a noble black dog wearing a thick orange Sayapatri marigold garland and vivid red abir tika on its forehead" style="display:block; object-position: center 22%;" />
+              <img class="custom-day-img story-full-photo" src="photoes/Gemini_Generated_Image_c8orohc8orohc8or.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_c8orohc8orohc8or.jpg';}" data-archive-id="Gemini_Generated_Image_c8orohc8orohc8or" alt="Kukur Tihar in Nepal: a noble black dog wearing a thick orange Sayapatri marigold garland and vivid red abir tika on its forehead" style="display:block; object-position: center 22%;" />
             </div>
             <div class="day-scrim"></div>
             <div class="day-floating-badge">
@@ -3528,7 +4096,7 @@
               <span>GUARDIAN OF THE THRESHOLD</span>
             </div>
             <div class="story-inset-card">
-              <img src="photoes/image_a2bfaf99.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_a2bfaf99.jpg';}" data-archive-id="image_a2bfaf99" alt="Mythical four-eyed Himalayan hound in mountain mist" />
+              <img src="photoes/Gemini_Generated_Image_xnthfaxnthfaxnth.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_xnthfaxnthfaxnth.jpg';}" data-archive-id="Gemini_Generated_Image_xnthfaxnthfaxnth" alt="Mythical four-eyed Himalayan hound in mountain mist" />
               <div class="story-inset-caption">
                 <span>CHARANKHE KUKUR MYTH</span>
                 <span>✦ कुकुर तिहार</span>
@@ -3574,7 +4142,7 @@
         <article class="tihar-day-page" data-day-index="2" data-day-watermark="लक्ष्मी पूजा">
           <div class="day-visual-showcase">
             <div class="day-artwork-canvas">
-              <img class="custom-day-img story-full-photo" src="photoes/image_d6f43d5e.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_d6f43d5e.jpg';}" data-archive-id="image_d6f43d5e" alt="Lakshmi Puja in Kathmandu: red footprints (Lakshmi ko paila) leading across a stone courtyard toward an ornate carved wooden doorway draped in Sayapatri marigold garlands and flickering clay diyas" style="display:block; object-position: center 45%;" />
+              <img class="custom-day-img story-full-photo" src="photoes/Gemini_Generated_Image_5cm75cm75cm75cm7.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_5cm75cm75cm75cm7.jpg';}" data-archive-id="Gemini_Generated_Image_5cm75cm75cm75cm7" alt="Lakshmi Puja in Kathmandu: red footprints (Lakshmi ko paila) leading across a stone courtyard toward an ornate carved wooden doorway draped in Sayapatri marigold garlands and flickering clay diyas" style="display:block; object-position: center 45%;" />
             </div>
             <div class="day-scrim"></div>
             <div class="day-floating-badge">
@@ -3585,7 +4153,7 @@
               <span>LAKSHMI KO PAILA &amp; BHAILO NIGHT</span>
             </div>
             <div class="story-inset-card">
-              <img src="photoes/image_ddd19989.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_ddd19989.jpg';}" data-archive-id="image_ddd19989" alt="Brass puja thali with glowing diyas and sacred kalash" />
+              <img src="photoes/Gemini_Generated_Image_flim0iflim0iflim.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_flim0iflim0iflim.jpg';}" data-archive-id="Gemini_Generated_Image_flim0iflim0iflim" alt="Brass puja thali with glowing diyas and sacred kalash" />
               <div class="story-inset-caption">
                 <span>SACRED PUJA OFFERINGS</span>
                 <span>✦ लक्ष्मी पूजा</span>
@@ -3631,7 +4199,7 @@
         <article class="tihar-day-page" data-day-index="3" data-day-watermark="म्ह पूजा">
           <div class="day-visual-showcase">
             <div class="day-artwork-canvas">
-              <img class="custom-day-img story-full-photo" src="photoes/image_88b48407.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_88b48407.jpg';}" data-archive-id="image_88b48407" alt="Overhead view of an intricate Newari Mha Puja mandala encircled by glowing clay diyas with fruits, walnuts, and offerings in the center" style="display:block; object-position: center 48%;" />
+              <img class="custom-day-img story-full-photo" src="photoes/Gemini_Generated_Image_m3gogfm3gogfm3go.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_m3gogfm3gogfm3go.jpg';}" data-archive-id="Gemini_Generated_Image_m3gogfm3gogfm3go" alt="Overhead view of an intricate Newari Mha Puja mandala encircled by glowing clay diyas with fruits, walnuts, and offerings in the center" style="display:block; object-position: center 48%;" />
             </div>
             <div class="day-scrim"></div>
             <div class="day-floating-badge">
@@ -3687,7 +4255,7 @@
         <article class="tihar-day-page" data-day-index="4" data-day-watermark="भाइटीका">
           <div class="day-visual-showcase">
             <div class="day-artwork-canvas">
-              <img class="custom-day-img story-full-photo" src="photoes/image_e8cf2ce1.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_e8cf2ce1.jpg';}" data-archive-id="image_e8cf2ce1" alt="Bhai Tika in Nepal: a sister applying the vertical seven-colored Saptarangi Tika onto her brother's forehead while he wears a Dhaka topi and Makhmali and Sayapatri garlands" style="display:block; object-position: center 26%;" />
+              <img class="custom-day-img story-full-photo" src="photoes/Gemini_Generated_Image_nr3oamnr3oamnr3o.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_nr3oamnr3oamnr3o.jpg';}" data-archive-id="Gemini_Generated_Image_nr3oamnr3oamnr3o" alt="Bhai Tika in Nepal: a sister applying the vertical seven-colored Saptarangi Tika onto her brother's forehead while he wears a Dhaka topi and Makhmali and Sayapatri garlands" style="display:block; object-position: center 26%;" />
             </div>
             <div class="day-scrim"></div>
             <div class="day-floating-badge">
@@ -3698,7 +4266,7 @@
               <span id="okharStatusBadge">THE ETERNAL SIBLING COVENANT</span>
             </div>
             <div class="story-inset-card">
-              <img src="photoes/image_99fb119f.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='image_99fb119f.jpg';}" data-archive-id="image_99fb119f" alt="Unfading royal-purple Makhmali flower woven with gold thread" />
+              <img src="photoes/Gemini_Generated_Image_1kxgpt1kxgpt1kxg.jpg" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='Gemini_Generated_Image_1kxgpt1kxgpt1kxg.jpg';}" data-archive-id="Gemini_Generated_Image_1kxgpt1kxgpt1kxg" alt="Unfading royal-purple Makhmali flower woven with gold thread" />
               <div class="story-inset-caption">
                 <span>IMMORTAL MAKHMALI</span>
                 <span>✦ भाइटीका</span>
@@ -3757,6 +4325,76 @@
 
     </div><!-- /fivedays-sticky -->
   </section>
+  <!-- ══════════════════════════════════════════════════════════════════
+       4. INTERACTIVE TIHAR STUDIO: WISH LANTERNS, MADAL PAD & POSTCARD
+  ══════════════════════════════════════════════════════════════════ -->
+  <section class="finale-studio" id="tihar-studio" aria-label="Interactive Tihar Studio">
+    <div class="wish-sky-layer" id="wishSkyLayer" aria-hidden="true"></div>
+
+    <div class="finale-inner">
+      <header class="finale-header">
+        <div class="finale-kicker">[ SECTION 04 // INTERACTIVE CELEBRATION STUDIO ]</div>
+        <h2 class="finale-title">Carry the Light<br /><em>Beyond Tonight</em></h2>
+        <p class="finale-sub">Release a golden Akash Deep wish lantern into Kathmandu’s sky, play a Deusi-Bhailo Madal rhythm, or mint a custom gold-foil Shubh Tihar postcard.</p>
+      </header>
+
+      <div class="finale-grid">
+        <!-- Card 1: Akash Deep Wish Lantern -->
+        <div class="studio-card">
+          <span class="studio-card-tag">01 // AKASH DEEP SKY LANTERN</span>
+          <h3>Release a Wish</h3>
+          <p>Write a blessing for your family or sibling. Your glowing lantern rises into the Kathmandu night sky and persists when you return.</p>
+          <input type="text" id="wishNameInput" class="studio-input" maxlength="24" placeholder="Your name (e.g. Pramsu)" />
+          <input type="text" id="wishTextInput" class="studio-input" maxlength="44" placeholder="Your Tihar wish (e.g. Long life & light)" />
+          <button type="button" id="releaseLanternBtn" class="studio-btn">✦ Release Sky Lantern ↑</button>
+          <span id="lanternCountLabel" style="font-family:'Space Mono',monospace;font-size:10px;color:#ffd47a;"></span>
+        </div>
+
+        <!-- Card 2: Synthesized Nepali Madal & Jhyali Pad -->
+        <div class="studio-card">
+          <span class="studio-card-tag">02 // DEUSI-BHAILO RHYTHM LAB</span>
+          <h3>Play the Madal</h3>
+          <p>Tap the pads (or press keys <strong>A, S, D, F</strong>) to play synthesized Nepali <em>Madal</em> bass/treble strokes, <em>Jhyali</em> cymbals, and bronze temple bells.</p>
+          <div class="madal-pad-grid">
+            <button type="button" class="madal-pad" data-drum="dhing">DHING (Bass)<br><small>[ KEY: A ]</small></button>
+            <button type="button" class="madal-pad" data-drum="tang">TANG (Treble)<br><small>[ KEY: S ]</small></button>
+            <button type="button" class="madal-pad" data-drum="jhyali">JHYALI (Cymbal)<br><small>[ KEY: D ]</small></button>
+            <button type="button" class="madal-pad" data-drum="ghanti">GHANTI (Bell)<br><small>[ KEY: F ]</small></button>
+          </div>
+          <button type="button" id="deusiLoopBtn" class="studio-btn">▶ Play Auto Deusi-Bhailo Beat</button>
+        </div>
+
+        <!-- Card 3: Downloadable Gold-Foil Editorial Postcard -->
+        <div class="studio-card">
+          <span class="studio-card-tag">03 // SAPTARANGI POSTCARD</span>
+          <h3>Mint Your Card</h3>
+          <p>Generate a high-resolution, gold-foil <em>Shubh Deepawali</em> editorial greeting card with your name to share with loved ones.</p>
+          <canvas id="postcardPreview" width="960" height="600"></canvas>
+          <input type="text" id="postcardNameInput" class="studio-input" maxlength="28" placeholder="Recipient or Family Name..." />
+          <button type="button" id="downloadPostcardBtn" class="studio-btn">↓ Download PNG Postcard</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Living Ember Cursor Canvas & Okhar Shatter Visual Overlay -->
+  <canvas id="emberCursorCanvas" aria-hidden="true"></canvas>
+  <div class="okhar-ritual-toast" id="okharToast" aria-live="polite">
+    <svg viewBox="0 0 120 100">
+      <g class="okhar-half okhar-left">
+        <path d="M60,16 C35,16 20,34 20,52 C20,72 36,86 60,86 L56,52 Z" fill="#6d4323" stroke="#ffb81c" stroke-width="2"/>
+        <path d="M36,36 Q46,50 38,68" fill="none" stroke="#c88d4b" stroke-width="1.5"/>
+      </g>
+      <g class="okhar-half okhar-right">
+        <path d="M60,16 C85,16 100,34 100,52 C100,72 84,86 60,86 L64,52 Z" fill="#5b361a" stroke="#ffb81c" stroke-width="2"/>
+        <path d="M84,36 Q74,50 82,68" fill="none" stroke="#c88d4b" stroke-width="1.5"/>
+      </g>
+    </svg>
+    <div id="okharToastText" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#ffd47a;margin-top:8px;">
+      OKHAR SHATTERED — OBSTACLES BROKEN
+    </div>
+  </div>
+
 
 
   <script>
@@ -3821,7 +4459,7 @@
         [10, 48, 44], [89, 44, 36], [51, 25, 46], [27, 22, 50]
       ];
       shows.forEach(([x, y, hue], index) => {
-        celebrationTimers.push(window.setTimeout(() => burst(x, y, hue), 350 + index * 430));
+        celebrationTimers.push(window.setTimeout(() => burst(x, y, hue), 950 + index * 950));
       });
     }
 
@@ -4332,78 +4970,59 @@
     })();
 
 
-    /* ── FIVE DAYS OF TIHAR (YAMAPANCHAK): 5-Page Scroll-Triggered Showcase & Interactive Bhai Tika Walnut Ritual ── */
+    /* ── FIVE DAYS OF TIHAR: CONTINUOUS VERTICAL SCROLL WITH STICKY TOP BAR ── */
     (function () {
-      const section         = document.getElementById('five-days');
-      const progressBar     = document.getElementById('fivedaysProgress');
-      const watermarkEl     = document.getElementById('fivedaysWatermark');
-      const counterEl       = document.getElementById('fivedaysCounter');
-      const footerReadout   = document.getElementById('fivedaysFooterReadout');
-      const prevDayBtn      = document.getElementById('prevDayBtn');
-      const nextDayBtn      = document.getElementById('nextDayBtn');
-      const dayPages        = Array.from(document.querySelectorAll('.tihar-day-page'));
-      const dayTabs         = Array.from(document.querySelectorAll('.fiveday-tab'));
-      const TOTAL_DAYS      = dayPages.length; // 5 days
+      const section     = document.getElementById('five-days');
+      const progressBar = document.getElementById('fivedaysProgress');
+      const counterEl   = document.getElementById('fivedaysCounter');
+      const dayPages    = Array.from(document.querySelectorAll('.tihar-day-page'));
+      const dayTabs     = Array.from(document.querySelectorAll('.fiveday-tab'));
+      if (!section || !dayPages.length) return;
 
-      const DAY_LABELS = [
-        'DAY 01 // KAAG TIHAR — MESSENGER CROW OF YAMARAJ',
-        'DAY 02 // KUKUR TIHAR — THE FOUR-EYED GUARDIAN HOUND',
-        'DAY 03 // GAI TIHAR & LAKSHMI PUJA — NIGHT OF A MILLION DIYAS',
-        'DAY 04 // GORU TIHAR & NEWARI MHA PUJA — SANCTITY OF THE SOUL',
-        'DAY 05 // BHAI TIKA — JAMUNA’S UNFADING MAKHMALI COVENANT'
-      ];
-
-      let activeDayIndex = -1;
-
-      function scrollToDay(idx) {
-        const clamped = Math.max(0, Math.min(TOTAL_DAYS - 1, idx));
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-        const scrollable = section.offsetHeight - window.innerHeight;
-        const targetY = sectionTop + ((clamped + 0.5) / TOTAL_DAYS) * scrollable;
-        window.scrollTo({ top: targetY, behavior: 'smooth' });
-      }
-
-      function activateDay(idx) {
-        if (idx === activeDayIndex) return;
-        activeDayIndex = idx;
-
+      function setActiveDayTab(idx) {
         const padDay = String(idx + 1).padStart(2, '0');
         if (counterEl) counterEl.textContent = `[ DAY ${padDay} / 05 ]`;
-
-        const activePage = dayPages[idx];
-        const wm = activePage ? activePage.getAttribute('data-day-watermark') : 'तिहार';
-        if (watermarkEl && wm) watermarkEl.textContent = wm;
-        if (footerReadout) footerReadout.textContent = DAY_LABELS[idx] || DAY_LABELS[0];
-
-        dayPages.forEach((p, i) => p.classList.toggle('active', i === idx));
-        dayTabs.forEach((t, i) => t.classList.toggle('active', i === idx));
-
-        if (prevDayBtn) prevDayBtn.disabled = idx === 0;
-        if (nextDayBtn) nextDayBtn.disabled = idx === TOTAL_DAYS - 1;
+        dayTabs.forEach((tab, i) => tab.classList.toggle('active', i === idx));
       }
 
-      dayTabs.forEach((tab, i) => {
-        tab.addEventListener('click', () => scrollToDay(i));
-      });
-      if (prevDayBtn) prevDayBtn.addEventListener('click', () => scrollToDay(activeDayIndex - 1));
-      if (nextDayBtn) nextDayBtn.addEventListener('click', () => scrollToDay(activeDayIndex + 1));
-
-      /* Custom Image Loader for any of the 5 Days */
-      const loadDayBtn   = document.getElementById('loadDayImgBtn');
-      const loadDayInput = document.getElementById('loadDayImgInput');
-      if (loadDayBtn && loadDayInput) {
-        loadDayBtn.addEventListener('click', () => loadDayInput.click());
-        loadDayInput.addEventListener('change', (e) => {
-          const file = e.target.files && e.target.files[0];
-          if (!file) return;
-          const url = URL.createObjectURL(file);
-          const currentImg = dayPages[Math.max(0, activeDayIndex)].querySelector('.custom-day-img');
-          if (currentImg) {
-            currentImg.src = url;
-            currentImg.style.display = 'block';
-          }
+      /* Smooth scroll to the selected Day block when clicking a top tab */
+      dayTabs.forEach((tab, idx) => {
+        tab.addEventListener('click', () => {
+          const targetPage = dayPages[idx];
+          if (!targetPage) return;
+          const topOffset = targetPage.getBoundingClientRect().top + window.scrollY - 64;
+          window.scrollTo({ top: topOffset, behavior: 'smooth' });
+          setActiveDayTab(idx);
         });
+      });
+
+      /* Automatically update the top Day tab as you scroll down continuously */
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              const idx = parseInt(entry.target.getAttribute('data-day-index'), 10);
+              if (!isNaN(idx)) setActiveDayTab(idx);
+            }
+          });
+        },
+        { threshold: 0.45 }
+      );
+      dayPages.forEach((page) => observer.observe(page));
+
+      /* Update progress bar across the 5-day section */
+      function updateFiveDaysProgress() {
+        if (!progressBar) return;
+        const rect = section.getBoundingClientRect();
+        const total = section.offsetHeight - window.innerHeight;
+        if (total <= 0) return;
+        const ratio = Math.max(0, Math.min(1, -rect.top / total));
+        progressBar.style.width = (ratio * 100).toFixed(2) + '%';
       }
+
+      window.addEventListener('scroll', updateFiveDaysProgress, { passive: true });
+      window.addEventListener('resize', updateFiveDaysProgress);
 
       /* Interactive Day 05 Ritual: Crack the Ceremonial Walnut (Okhar) */
       const crackWalnutBtn   = document.getElementById('crackWalnutBtn');
@@ -4436,28 +5055,12 @@
         fiveDaysToTopBtn.addEventListener('click', () => {
           window.scrollTo({ top: 0, behavior: 'smooth' });
           window.setTimeout(() => {
-            if (!celebrating) lightUp();
+            if (typeof celebrating !== 'undefined' && !celebrating && typeof lightUp === 'function') {
+              lightUp();
+            }
           }, 650);
         });
       }
-
-      function onFiveDaysScroll() {
-        const rect = section.getBoundingClientRect();
-        const pinStart = -rect.top;
-        const pinTotal = section.offsetHeight - window.innerHeight;
-        if (pinTotal <= 0) return;
-
-        const ratio = Math.max(0, Math.min(1, pinStart / pinTotal));
-        if (progressBar) progressBar.style.width = (ratio * 100).toFixed(2) + '%';
-
-        const idx = Math.min(TOTAL_DAYS - 1, Math.floor(ratio * TOTAL_DAYS));
-        activateDay(idx);
-      }
-
-      activateDay(0);
-      window.addEventListener('scroll', onFiveDaysScroll, { passive: true });
-      window.addEventListener('resize', onFiveDaysScroll);
-      onFiveDaysScroll();
     })();
   </script>
 
@@ -4533,13 +5136,13 @@
     /* ── ARCHIVAL VISUAL VAULT JAVASCRIPT CONTROLLER (11 AUTHENTIC TIHAR PLATES) ── */
     const TIHAR_PHOTO_ARCHIVE = [
       {
-        id: "yamraj",
-        src: "photoes/yamraj.jpg",
-        fallback: "yamraj.jpg",
-        title: "Yamaraj, the God of Death — Sovereign of Yamapanchak",
+        id: "Gemini_Generated_Image_d6115rd6115rd611",
+        src: "photoes/Gemini_Generated_Image_d6115rd6115rd611.jpg",
+        fallback: "Gemini_Generated_Image_d6115rd6115rd611.jpg",
+        title: "Lord Yamaraj, the God of Death — Sovereign of Yamapanchak",
         deva: "यमराज — मृत्युका स्वामी र यमपञ्चकका अधिपति",
         location: "Yamaloka & Sacred Myth",
-        chapterRef: "Plate 01, 02, 07 & 11 // The Legend",
+        chapterRef: "Plate 02, 07 & 11 // The Legend",
         targetId: "story",
         tags: ["YAMARAJ", "GOD OF DEATH", "MAHISHA BUFFALO", "SOVEREIGN PACT"],
         desc: "Yamaraj (Dharmaraj), the formidable lord of justice and mortality, riding his horned water buffalo through volcanic fires. Wielding a spiked golden gada (mace) and burning pasha (noose), he arrives on the fifth dawn of Tihar to claim King Bali Hang, only to be bound by sister Jamuna’s hospitality and unwithering Makhmali garland."
@@ -4557,124 +5160,112 @@
         desc: "A breathtaking panoramic night photograph of the ancient pagoda temples illuminated with thousands of oil diyas, butter lamps, and golden fairy lights. Devotees gather across stone-paved plazas under a crescent moon to celebrate Tihar and Nepal Sambat, bringing the sacred valley alive with golden warmth."
       },
       {
-        id: "image_10f99f38",
-        src: "photoes/image_10f99f38.jpg",
-        fallback: "image_10f99f38.jpg",
-        title: "Kaag Tihar Offering at Misty Sunrise",
+        id: "Gemini_Generated_Image_fjl7gifjl7gifjl7",
+        src: "photoes/Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg",
+        fallback: "Gemini_Generated_Image_fjl7gifjl7gifjl7.jpg",
+        title: "Kaag Tihar Offering at Misty Sunrise — The Sacred Crow",
         deva: "काग तिहार — बिहानीको पूजा र सेलरोटी",
         location: "Kathmandu Valley Rooftop",
         chapterRef: "Plate 04 & 13 // Day 01: Kaag Tihar",
         targetId: "five-days",
         tags: ["DAY 01: KAAG", "SEL ROTI", "TAPARI LEAF", "FIRST MESSENGER"],
-        desc: "At the first golden rays of dawn over the Kathmandu Valley, Yamaraj's winged herald—the crow (Kaag)—perches on an antique brick rooftop ledge. In front rests a handmade sal-leaf tapari plate heaped with freshly fried golden sel roti and sweets, offered before family breakfast to invoke auspicious tidings and peace."
+        desc: "At the first golden rays of dawn over the Kathmandu Valley, Yamaraj's winged herald—the crow (Kaag)—perches on an antique brick rooftop ledge beside freshly fried golden sel roti and sweets, invoking auspicious tidings and peace."
       },
       {
-        id: "image_cb7eb992",
-        src: "photoes/image_cb7eb992.jpg",
-        fallback: "image_cb7eb992.jpg",
-        title: "Messenger Crow upon Carved Newari Torana",
-        deva: "काग दूत — नेवारी कलात्मक काष्ठ तोरण",
-        location: "Patan / Kathmandu Historic Courtyard",
-        chapterRef: "Plate 04 & 06 // Day 01 Inset",
-        targetId: "story",
-        tags: ["YAMARAJ'S ENVOY", "NEWARI TORANA", "GARUDA CARVING", "HERALD OF DEATH"],
-        desc: "The dark crow perched gracefully atop an ornate Newari carved wooden doorway torana depicting Garuda and water deities. Dispatched by Yamaraj to summon King Bali Hang, the winged messenger was respectfully received by sister Jamuna and requested to wait until Panchami."
-      },
-      {
-        id: "image_a2bfaf99",
-        src: "photoes/image_a2bfaf99.jpg",
-        fallback: "image_a2bfaf99.jpg",
-        title: "The Four-Eyed Himalayan Hound of Yamaraj",
+        id: "Gemini_Generated_Image_xnthfaxnthfaxnth",
+        src: "photoes/Gemini_Generated_Image_xnthfaxnthfaxnth.jpg",
+        fallback: "Gemini_Generated_Image_xnthfaxnthfaxnth.jpg",
+        title: "The Four-Eyed Himalayan Hound of Yamaraj (Charankhe Kukur)",
         deva: "चारआँखे कुकुर — यमदूत भैरव वाहन",
-        location: "High Himalayan Mountain Pass",
+        location: "Himalayan Threshold & Courtyard",
         chapterRef: "Plate 05 & 06 // Day 02 Inset",
         targetId: "story",
         tags: ["FOUR-EYED HOUND", "CHARANKHE KUKUR", "SECOND MESSENGER", "GUARDIAN"],
-        desc: "The mythical mountain mastiff known as Charankhe Kukur. His amber coat markings above the eyes create the impression of four watchful eyes that pierce the spirit realm. Dispatched as Yamaraj's second envoy, this sacred hound guides souls across the threshold of the underworld."
+        desc: "The mythical mountain mastiff known as Charankhe Kukur. His golden coat markings above the eyes create the impression of four watchful eyes that pierce the spiritual veil, guiding and protecting souls at the threshold."
       },
       {
-        id: "image_1baa28ab",
-        src: "photoes/image_1baa28ab.jpg",
-        fallback: "image_1baa28ab.jpg",
+        id: "Gemini_Generated_Image_c8orohc8orohc8or",
+        src: "photoes/Gemini_Generated_Image_c8orohc8orohc8or.jpg",
+        fallback: "Gemini_Generated_Image_c8orohc8orohc8or.jpg",
         title: "Kukur Tihar — The Honoured Guardian",
         deva: "कुकुर तिहार — स्वामीभक्त रक्षक पूजा",
-        location: "Kathmandu Valley Household",
+        location: "Kathmandu Valley Courtyard",
         chapterRef: "Plate 05 Inset // Day 02: Kukur Tihar",
         targetId: "five-days",
-        tags: ["DAY 02: KUKUR", "MARIGOLD GARLAND", "SAYAPATRI", "ABIR TIKA"],
-        desc: "A noble mountain dog crowned with a lush orange Sayapatri (marigold) garland and blessed with vivid red abir tika on his brow. On Kukur Tihar, every dog across Nepal is honoured with feasts and garlands in profound gratitude for their steadfast loyalty, companionship, and sacred guardianship."
+        tags: ["DAY 02: KUKUR", "MARIGOLD GARLAND", "SAYAPATRI", "LOYALTY"],
+        desc: "A noble companion dog crowned with a thick golden-orange Sayapatri marigold garland and marked with vivid red abir vermillion on its forehead, honoured with hearty meals in gratitude for unconditional loyalty."
       },
       {
-        id: "image_7d3e96ab",
-        src: "photoes/image_7d3e96ab.jpg",
-        fallback: "image_7d3e96ab.jpg",
-        title: "The Vigil of Sister Jamuna beside King Bali Hang",
+        id: "Gemini_Generated_Image_4bppvg4bppvg4bpp",
+        src: "photoes/Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg",
+        fallback: "Gemini_Generated_Image_4bppvg4bppvg4bpp.jpg",
+        title: "The Vigil of Sister Jamuna beside Ailing King Bali Hang",
         deva: "बलिहाङ राजा र दिदी जमुनाको पहरा",
         location: "Kirati Royal Bedchamber",
-        chapterRef: "Plate 03, 06 & 08 // The Origin Legend",
+        chapterRef: "Plate 01, 03 & 08 // The Origin Legend",
         targetId: "story",
         tags: ["KING BALI HANG", "JAMUNA", "KIRAT HERITAGE", "DEFEATING DEATH"],
-        desc: "The Kirati monarch King Bali Hang lies grievously ill in his stone bedchamber, while his devoted sister Jamuna stays faithful vigil by the warm glow of a brass oil lamp (sukunda / diya), vowing to protect her brother's life even against Yamaraj, the God of Death."
+        desc: "The Kirati monarch King Bali Hang lies grievously ill in his stone bedchamber, while his devoted sister Jamuna stays faithful vigil by the warm glow of a brass oil lamp, vowing to protect her brother's life even against the God of Death."
       },
       {
-        id: "image_d6f43d5e",
-        src: "photoes/image_d6f43d5e.jpg",
-        fallback: "image_d6f43d5e.jpg",
-        title: "Lakshmi ko Paila — Courtyard Illuminated for the Goddess",
+        id: "Gemini_Generated_Image_5cm75cm75cm75cm7",
+        src: "photoes/Gemini_Generated_Image_5cm75cm75cm75cm7.jpg",
+        fallback: "Gemini_Generated_Image_5cm75cm75cm75cm7.jpg",
+        title: "Lakshmi ko Paila — Courtyard Illuminated for Goddess Lakshmi",
         deva: "लक्ष्मीको पाइला — दीपावली र आँगन",
         location: "Traditional Kathmandu Courtyard",
-        chapterRef: "Plate 01 Inset, 08 // Day 03: Lakshmi Puja",
+        chapterRef: "Plate 08 // Day 03: Lakshmi Puja",
         targetId: "five-days",
         tags: ["DAY 03: LAKSHMI", "RED FOOTPRINTS", "CLAY DIYAS", "MARIGOLD TORAN"],
-        desc: "Sacred red footprints (Lakshmi ko paila) stamped across wet courtyard stone pavers guide Goddess Lakshmi from the threshold into the treasury. Fragrant yellow-orange marigold festoons and rows of clay diyas cast a protective boundary of pure light on the new-moon night of Aunsi."
+        desc: "Sacred red footprints (Lakshmi ko paila) stamped across wet courtyard stone pavers guide Goddess Lakshmi from the outer gate into the treasury, flanked by rows of glowing clay diyas and marigold garlands."
       },
       {
-        id: "image_ddd19989",
-        src: "photoes/image_ddd19989.jpg",
-        fallback: "image_ddd19989.jpg",
-        title: "Sacred Tihar Puja Thali — Saptarangi & Ritual Kalash",
+        id: "Gemini_Generated_Image_flim0iflim0iflim",
+        src: "photoes/Gemini_Generated_Image_flim0iflim0iflim.jpg",
+        fallback: "Gemini_Generated_Image_flim0iflim0iflim.jpg",
+        title: "Sacred Tihar Puja Thali — Saptarangi, Kalash & Okhar",
         deva: "तिहार पूजा थाली — सप्तरङ्गी र कलश",
         location: "Traditional Nepali Puja Altar",
         chapterRef: "Plate 09, 10 & 11 // Day 03 Inset",
         targetId: "story",
         tags: ["PUJA THALI", "SAPTARANGI TIKA", "SACRED KALASH", "OKHAR (WALNUT)"],
-        desc: "A polished brass ritual platter arranged with seven bronze bowls containing vivid rainbow Saptarangi tika pigments, twin glowing oil lamps, sacred brass kalash with fresh mango leaves, smoking incense, and ceremonial walnuts (okhar) that break all impediments."
+        desc: "A polished brass ritual platter arranged with seven bronze bowls containing vivid rainbow Saptarangi tika pigments, twin glowing oil lamps, sacred brass kalash with fresh mango leaves, incense, and ceremonial walnuts (okhar)."
       },
       {
-        id: "image_88b48407",
-        src: "photoes/image_88b48407.jpg",
-        fallback: "image_88b48407.jpg",
-        title: "Intricate Mha Puja Sand Mandala — Sanctifying the Self",
+        id: "Gemini_Generated_Image_m3gogfm3gogfm3go",
+        src: "photoes/Gemini_Generated_Image_m3gogfm3gogfm3go.jpg",
+        fallback: "Gemini_Generated_Image_m3gogfm3gogfm3go.jpg",
+        title: "Intricate Mha Puja Sand Mandala — Sanctifying the Soul",
         deva: "म्ह पूजा मण्डल — आत्म पूजा र नेपाल संवत्",
         location: "Kathmandu Valley Newar Household",
         chapterRef: "Day 04: Goru Tihar & Mha Puja",
         targetId: "five-days",
         tags: ["DAY 04: MHA PUJA", "SAND MANDALA", "NEPAL SAMBAT", "DIVINE ATMAN"],
-        desc: "An exquisite circular floor mandala masterfully drawn with colored sand, red abir powder, white flour, and black grains. Encircled by thirty-six burning clay diyas and layered with walnuts, apples, citrus, and the ceremonial sword (khadga), it sanctifies the soul on Nepal Sambat New Year."
+        desc: "An exquisite circular floor mandala masterfully drawn with colored sand, red abir powder, and grains, encircled by thirty-six burning clay diyas and layered with walnuts, fruits, and the ritual sword (khadga)."
       },
       {
-        id: "image_99fb119f",
-        src: "photoes/image_99fb119f.jpg",
-        fallback: "image_99fb119f.jpg",
+        id: "Gemini_Generated_Image_1kxgpt1kxgpt1kxg",
+        src: "photoes/Gemini_Generated_Image_1kxgpt1kxgpt1kxg.jpg",
+        fallback: "Gemini_Generated_Image_1kxgpt1kxgpt1kxg.jpg",
         title: "The Unfading Royal-Purple Makhmali Blossom",
         deva: "नओइलाउने मखमली फूल — अमर बन्धन",
         location: "Kathmandu Florist & Altar",
         chapterRef: "Plate 10, 12, 13 // Day 05 Inset",
         targetId: "story",
         tags: ["MAKHMALI", "GOMPHRENA GLOBOSA", "UNFADING BLOSSOM", "SISTER'S PACT"],
-        desc: "A macro close-up of vibrant royal-purple Makhmali (Globe Amaranth) blossoms interwoven with gleaming golden wire. Because these petals never dry out, shrink, or lose their vivid regal purple color, Jamuna proclaimed: 'Do not take my brother until this Makhmali flower withers away'—outsmarting death for all eternity."
+        desc: "A macro view of vibrant royal-purple Makhmali (Globe Amaranth) blossoms interwoven with gleaming golden wire. Because these petals never dry out, shrink, or lose their regal color, Jamuna proclaimed her brother could not be taken until they withered."
       },
       {
-        id: "image_e8cf2ce1",
-        src: "photoes/image_e8cf2ce1.jpg",
-        fallback: "image_e8cf2ce1.jpg",
+        id: "Gemini_Generated_Image_nr3oamnr3oamnr3o",
+        src: "photoes/Gemini_Generated_Image_nr3oamnr3oamnr3o.jpg",
+        fallback: "Gemini_Generated_Image_nr3oamnr3oamnr3o.jpg",
         title: "Bhai Tika — Saptarangi Blessing of Immortality",
         deva: "भाइटीका — सप्तरङ्गी टीका र दीर्घायु",
         location: "Kathmandu Family Home",
         chapterRef: "Plate 02, 14 // Day 05: Bhai Tika",
         targetId: "five-days",
         tags: ["DAY 05: BHAI TIKA", "SAPTARANGI TIKA", "DHAKA TOPI", "ETERNAL SIBLING BOND"],
-        desc: "With a loving smile, a sister applies the vertical seven-colored rainbow Saptarangi tika onto the forehead of her brother, who wears a traditional handwoven Palpali Dhaka topi and thick garlands of purple Makhmali and golden Sayapatri. This ritual seals Jamuna's eternal victory over Yamaraj."
+        desc: "With a loving smile, a sister applies the vertical seven-colored rainbow Saptarangi tika onto the forehead of her brother, who wears a traditional handwoven Palpali Dhaka topi and thick garlands of Makhmali and Sayapatri."
       }
     ];
 
@@ -4827,28 +5418,344 @@
         }
       });
 
-      // Hook all clickable images across the website to open Lightbox
-      document.addEventListener('click', (e) => {
-        const img = e.target.closest('img');
-        if (!img) return;
-
-        // Skip the lightbox main image itself
-        if (img.id === 'lbMainImage' || img.closest('.archival-lightbox') || img.closest('.archival-gallery-modal')) return;
-
-        const archiveId = img.getAttribute('data-archive-id') || (img.src.match(/image_[a-f0-9]{8}/) ? img.src.match(/image_[a-f0-9]{8}/)[0] : null);
-        if (archiveId) {
-          const foundIdx = TIHAR_PHOTO_ARCHIVE.findIndex(p => p.id === archiveId);
-          if (foundIdx !== -1) {
-            e.preventDefault();
-            openLightbox(foundIdx);
-          }
+      /* Replace the document image click listener for TIHAR_PHOTO_ARCHIVE with a no-op */
+      window.openTiharPhotoVault = function () {};
+      window.openTiharLightbox = function () {};
+    })();
+  </script>
+  <script>
+    (function () {
+      /* 1. REPLACE CARTOON EMOJIS WITH BESPOKE GOLD VECTOR DIYA SVGS */
+      const goldDiyaSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffb81c" stroke-width="1.7"><path d="M12 2.5c2.4 2.8 3.6 5.1 2.6 7.4-.6 1.3-1.7 2-2.6 2s-2-.7-2.6-2C8.4 7.6 9.6 5.3 12 2.5Z" fill="rgba(255,184,28,0.35)"/><path d="M3.5 14.5c2.2 3.6 5 5.2 8.5 5.2s6.3-1.6 8.5-5.2c-2.8 1.2-5.6 1.8-8.5 1.8s-5.7-.6-8.5-1.8Z"/></svg>`;
+      document.querySelectorAll('.diya-divider-emblem .mini-flame').forEach(el => {
+        el.innerHTML = goldDiyaSvg;
+      });
+      document.querySelectorAll('.story-split-medallion').forEach(el => {
+        if (el.textContent.includes('🪔') || el.textContent.includes('🙏')) {
+          el.innerHTML = `<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#ffd47a" stroke-width="1.4"><path d="M12 2.5c2.8 3.2 4.2 5.7 3 8.2-.7 1.4-2 2.1-3 2.1s-2.3-.7-3-2.1C7.8 8.2 9.2 5.7 12 2.5Z" fill="rgba(255,184,28,0.28)"/><path d="M3.5 14.5c2.2 3.6 5 5.2 8.5 5.2s6.3-1.6 8.5-5.2c-2.8 1.2-5.6 1.8-8.5 1.8s-5.7-.6-8.5-1.8Z"/></svg>`;
         }
       });
 
-      window.openTiharPhotoVault = openGalleryModal;
-      window.openTiharLightbox = openLightbox;
+      /* 2. RADIAL SHOCKWAVE ON DIYA IGNITION + CLICK-ANYWHERE HERO FIREWORKS */
+      const heroPage = document.getElementById('page');
+      const diyaBtn = document.getElementById('lightDiya');
+      if (diyaBtn) {
+        diyaBtn.addEventListener('click', () => {
+          const r = diyaBtn.getBoundingClientRect();
+          const wave = document.createElement('div');
+          wave.className = 'diya-shockwave';
+          const size = Math.max(window.innerWidth, window.innerHeight);
+          wave.style.width = size + 'px';
+          wave.style.height = size + 'px';
+          wave.style.left = (r.left + r.width / 2) + 'px';
+          wave.style.top = (r.top + r.height / 2) + 'px';
+          document.body.appendChild(wave);
+          setTimeout(() => wave.remove(), 4000);
+        });
+      }
+      if (heroPage) {
+        heroPage.addEventListener('click', (e) => {
+          if (!heroPage.classList.contains('celebrating')) return;
+          if (e.target.closest('button, a')) return;
+          const rect = heroPage.getBoundingClientRect();
+          const xPct = ((e.clientX - rect.left) / rect.width) * 100;
+          const yPct = ((e.clientY - rect.top) / rect.height) * 100;
+          if (typeof burst === 'function') burst(xPct, yPct, 32 + Math.floor(Math.random() * 26));
+          if (window.playTiharChime) window.playTiharChime(440 + Math.random() * 280, 0.9);
+        });
+      }
+
+      /* 3. LIVING EMBER CURSOR TRAIL */
+      const c = document.getElementById('emberCursorCanvas');
+      const ctx = c ? c.getContext('2d') : null;
+      const sparks = [];
+      function resizeEmber() { if (c) { c.width = window.innerWidth; c.height = window.innerHeight; } }
+      resizeEmber();
+      window.addEventListener('resize', resizeEmber);
+      window.addEventListener('mousemove', (e) => {
+        if (Math.random() > 0.45) return;
+        sparks.push({
+          x: e.clientX, y: e.clientY,
+          vx: (Math.random() - 0.5) * 0.8, vy: -0.6 - Math.random() * 1.1,
+          life: 1, r: 1.2 + Math.random() * 2.2
+        });
+      }, { passive: true });
+      (function animateEmbers() {
+        if (ctx) {
+          ctx.clearRect(0, 0, c.width, c.height);
+          for (let i = sparks.length - 1; i >= 0; i--) {
+            const s = sparks[i];
+            s.x += s.vx; s.y += s.vy; s.life -= 0.028;
+            if (s.life <= 0) { sparks.splice(i, 1); continue; }
+            ctx.globalAlpha = s.life * 0.75;
+            ctx.fillStyle = s.life > 0.5 ? '#ffe39f' : '#ff7b29';
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r * s.life, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+        requestAnimationFrame(animateEmbers);
+      })();
+
+      /* 4. SUBTLE 3D MOUSE PARALLAX ON ACTIVE STORY PLATES + CINEMA AUTO-PLAY */
+      const storyStage = document.getElementById('codexStage');
+      if (storyStage) {
+        window.addEventListener('mousemove', (e) => {
+          const activeArt = storyStage.querySelector('.codex-chapter.active .anchor-fullbleed-art');
+          if (!activeArt) return;
+          const dx = (e.clientX / window.innerWidth - 0.5) * -14;
+          const dy = (e.clientY / window.innerHeight - 0.5) * -10;
+          activeArt.style.transform = `scale(1.03) translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0)`;
+        }, { passive: true });
+      }
+      const codexNav = document.querySelector('#story .codex-nav-btns');
+      if (codexNav) {
+        const autoBtn = document.createElement('button');
+        autoBtn.type = 'button';
+        autoBtn.className = 'codex-btn';
+        autoBtn.textContent = '▶ CINEMA PLAY';
+        let autoTimer = null;
+        autoBtn.addEventListener('click', () => {
+          if (autoTimer) {
+            clearInterval(autoTimer); autoTimer = null;
+            autoBtn.textContent = '▶ CINEMA PLAY';
+          } else {
+            autoBtn.textContent = '❚❚ PAUSE';
+            autoTimer = setInterval(() => {
+              const next = document.getElementById('nextChapterBtn');
+              if (next && !next.disabled) next.click();
+              else { clearInterval(autoTimer); autoTimer = null; autoBtn.textContent = '▶ CINEMA PLAY'; }
+            }, 4600);
+          }
+        });
+        codexNav.prepend(autoBtn);
+      }
+
+      /* 5. WORKING OKHAR-SHATTER VISUAL OVERLAY ON DAY 05 */
+      const crackBtn = document.getElementById('crackWalnutBtn');
+      const okharToast = document.getElementById('okharToast');
+      if (crackBtn && okharToast) {
+        crackBtn.addEventListener('click', () => {
+          okharToast.classList.remove('cracked');
+          okharToast.classList.add('show');
+          setTimeout(() => okharToast.classList.add('cracked'), 140);
+          setTimeout(() => okharToast.classList.remove('show'), 2200);
+        });
+      }
+
+      /* 6. WISH LANTERN WALL (PERSISTED IN LOCALSTORAGE) */
+      const wishSky = document.getElementById('wishSkyLayer');
+      const wishName = document.getElementById('wishNameInput');
+      const wishText = document.getElementById('wishTextInput');
+      const releaseBtn = document.getElementById('releaseLanternBtn');
+      const countLbl = document.getElementById('lanternCountLabel');
+      const savedWishes = JSON.parse(localStorage.getItem('tihar_wishes_v1') || '[{"n":"Kathmandu","t":"Light over darkness"}]');
+
+      function spawnWishLantern(name, text) {
+        if (!wishSky) return;
+        const el = document.createElement('div');
+        el.className = 'wish-lantern-float';
+        el.style.left = (8 + Math.random() * 82) + '%';
+        el.style.setProperty('--wdrift', ((Math.random() - 0.5) * 140) + 'px');
+        el.innerHTML = `<div class="wish-lantern-body"></div><div class="wish-lantern-tag">✦ ${name}: ${text}</div>`;
+        wishSky.appendChild(el);
+        setTimeout(() => el.remove(), 18500);
+      }
+      function updateWishCount() {
+        if (countLbl) countLbl.textContent = `✦ ${savedWishes.length} WISH LANTERNS RISING TONIGHT`;
+      }
+      updateWishCount();
+      setInterval(() => {
+        const w = savedWishes[Math.floor(Math.random() * savedWishes.length)];
+        if (w) spawnWishLantern(w.n, w.t);
+      }, 3600);
+      if (releaseBtn) {
+        releaseBtn.addEventListener('click', () => {
+          const n = (wishName.value.trim() || 'Traveler').slice(0, 24);
+          const t = (wishText.value.trim() || 'Shubh Deepawali').slice(0, 44);
+          savedWishes.push({ n, t });
+          localStorage.setItem('tihar_wishes_v1', JSON.stringify(savedWishes.slice(-25)));
+          spawnWishLantern(n, t);
+          updateWishCount();
+          wishText.value = '';
+          if (window.playTiharChime) window.playTiharChime(587.33, 1.8);
+        });
+      }
+
+      /* 7. NEPALI MADAL & JHYALI WEB AUDIO SYNTHESIZER */
+      let drumCtx = null;
+      function playDrum(type) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        if (!drumCtx) drumCtx = new AC();
+        if (drumCtx.state === 'suspended') drumCtx.resume();
+        const now = drumCtx.currentTime;
+        const pad = document.querySelector(`[data-drum="${type}"]`);
+        if (pad) { pad.classList.add('hit'); setTimeout(() => pad.classList.remove('hit'), 130); }
+
+        if (type === 'dhing' || type === 'tang') {
+          const osc = drumCtx.createOscillator();
+          const gain = drumCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(type === 'dhing' ? 145 : 310, now);
+          osc.frequency.exponentialRampToValueAtTime(type === 'dhing' ? 58 : 140, now + 0.18);
+          gain.gain.setValueAtTime(0.45, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+          osc.connect(gain); gain.connect(drumCtx.destination);
+          osc.start(now); osc.stop(now + 0.26);
+        } else if (type === 'jhyali') {
+          const buf = drumCtx.createBuffer(1, drumCtx.sampleRate * 0.14, drumCtx.sampleRate);
+          const data = buf.getChannelData(0);
+          for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / 1800);
+          const src = drumCtx.createBufferSource();
+          const hp = drumCtx.createBiquadFilter();
+          hp.type = 'highpass'; hp.frequency.value = 5500;
+          const gain = drumCtx.createGain(); gain.gain.value = 0.22;
+          src.buffer = buf; src.connect(hp); hp.connect(gain); gain.connect(drumCtx.destination);
+          src.start(now);
+        } else if (type === 'ghanti' && window.playTiharChime) {
+          window.playTiharChime(659.25, 1.5);
+        }
+      }
+      document.querySelectorAll('[data-drum]').forEach(btn => {
+        btn.addEventListener('click', () => playDrum(btn.dataset.drum));
+      });
+      window.addEventListener('keydown', (e) => {
+        if (e.target.matches('input, textarea')) return;
+        const map = { a: 'dhing', s: 'tang', d: 'jhyali', f: 'ghanti' };
+        if (map[e.key.toLowerCase()]) playDrum(map[e.key.toLowerCase()]);
+      });
+      const loopBtn = document.getElementById('deusiLoopBtn');
+      let loopId = null, step = 0;
+      const pattern = ['dhing', 'jhyali', 'tang', 'dhing', 'tang', 'jhyali', 'dhing', 'ghanti'];
+      if (loopBtn) {
+        loopBtn.addEventListener('click', () => {
+          if (loopId) {
+            clearInterval(loopId); loopId = null;
+            loopBtn.textContent = '▶ Play Auto Deusi-Bhailo Beat';
+          } else {
+            loopBtn.textContent = '■ Stop Deusi-Bhailo Beat';
+            loopId = setInterval(() => { playDrum(pattern[step++ % pattern.length]); }, 230);
+          }
+        });
+      }
+
+      /* 8. GOLD-FOIL EDITORIAL POSTCARD GENERATOR (PNG EXPORT) */
+      const cardCanvas = document.getElementById('postcardPreview');
+      const cardInput = document.getElementById('postcardNameInput');
+      const dlBtn = document.getElementById('downloadPostcardBtn');
+      function renderPostcard(name) {
+        if (!cardCanvas) return;
+        const g = cardCanvas.getContext('2d');
+        const W = cardCanvas.width, H = cardCanvas.height;
+        const bg = g.createRadialGradient(W * 0.5, H * 0.35, 30, W * 0.5, H * 0.5, W * 0.72);
+        bg.addColorStop(0, '#2a1608'); bg.addColorStop(0.55, '#120d18'); bg.addColorStop(1, '#07080d');
+        g.fillStyle = bg; g.fillRect(0, 0, W, H);
+        g.strokeStyle = '#ffb81c'; g.lineWidth = 3; g.strokeRect(26, 26, W - 52, H - 52);
+        g.strokeStyle = 'rgba(255,184,28,0.35)'; g.lineWidth = 1; g.strokeRect(38, 38, W - 76, H - 76);
+
+        // Saptarangi 7-Color Tika Stripe
+        const colors = ['#C62828','#E65100','#FFB81C','#FAF5EC','#2E7D32','#1565C0','#9C27B0'];
+        colors.forEach((col, i) => {
+          g.fillStyle = col;
+          g.beginPath(); g.arc(W / 2 - 72 + i * 24, 118, 7, 0, Math.PI * 2); g.fill();
+        });
+
+        g.textAlign = 'center';
+        g.fillStyle = '#ffd47a'; g.font = '600 18px "Space Mono", monospace';
+        g.fillText('YAMAPANCHAK 2026 // KATHMANDU', W / 2, 175);
+
+        g.fillStyle = '#FAF5EC'; g.font = 'italic 84px Georgia, serif';
+        g.fillText('Shubh Tihar', W / 2, 290);
+
+        g.fillStyle = '#ffb81c'; g.font = '400 34px Georgia, serif';
+        g.fillText(name ? `Warmest Light to ${name}` : 'May Your Home Glow Forever', W / 2, 368);
+
+        g.fillStyle = 'rgba(250,245,236,0.72)'; g.font = '16px Inter, sans-serif';
+        g.fillText('Unfading as Makhmali  ✦  Bright as Ten Thousand Diyas', W / 2, 460);
+      }
+      renderPostcard('');
+      if (cardInput) cardInput.addEventListener('input', () => renderPostcard(cardInput.value.trim()));
+      if (dlBtn && cardCanvas) {
+        dlBtn.addEventListener('click', () => {
+          const link = document.createElement('a');
+          link.download = 'Shubh-Tihar-Kathmandu-2026.png';
+          link.href = cardCanvas.toDataURL('image/png');
+          link.click();
+        });
+      }
     })();
   </script>
+
+  <script>
+    /* ── JOHN BOLSTER-STYLE CONTINUOUS Z-AXIS ZOOM SCROLLYTELLING ── */
+    (function () {
+      const section  = document.getElementById('story');
+      const chapters = Array.from(document.querySelectorAll('#codexStage .codex-chapter'));
+      if (!section || !chapters.length) return;
+
+      const TOTAL = chapters.length;
+      let targetPos = 0;
+      let smoothPos = 0;
+
+      function onScroll() {
+        const rect = section.getBoundingClientRect();
+        const scrollable = section.offsetHeight - window.innerHeight;
+        if (scrollable <= 0) return;
+        const ratio = Math.max(0, Math.min(1, -rect.top / scrollable));
+        targetPos = ratio * (TOTAL - 1);
+      }
+
+      function animateZDepth() {
+        smoothPos += (targetPos - smoothPos) * 0.075;
+
+        chapters.forEach((ch, i) => {
+          const dist = i - smoothPos; // 0 = active, <0 = passed (zooming past camera), >0 = upcoming (rising from distance)
+
+          if (Math.abs(dist) > 1.25) {
+            ch.style.opacity = '0';
+            ch.style.visibility = 'hidden';
+            ch.style.pointerEvents = 'none';
+            return;
+          }
+
+          ch.style.visibility = 'visible';
+
+          if (dist < 0) {
+            /* Outgoing chapter: zooms IN toward viewer, blurs slightly & vanishes */
+            const progress = Math.min(1, -dist);
+            const scale    = 1 + progress * 0.42;
+            const opacity  = Math.max(0, 1 - progress * 1.35);
+            const blur     = progress * 7;
+            ch.style.transform = `scale(${scale.toFixed(4)})`;
+            ch.style.opacity   = opacity.toFixed(3);
+            ch.style.filter    = blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : 'none';
+            ch.style.pointerEvents = progress < 0.25 ? 'auto' : 'none';
+            ch.style.zIndex    = '20';
+          } else {
+            /* Incoming chapter: rises from deep background (scale 0.78 -> 1.0) */
+            const progress = Math.min(1, dist);
+            const scale    = 1 - progress * 0.22;
+            const opacity  = Math.max(0, 1 - progress * 1.15);
+            const blur     = progress * 4;
+            ch.style.transform = `scale(${scale.toFixed(4)})`;
+            ch.style.opacity   = opacity.toFixed(3);
+            ch.style.filter    = blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : 'none';
+            ch.style.pointerEvents = progress < 0.25 ? 'auto' : 'none';
+            ch.style.zIndex    = '10';
+          }
+        });
+
+        requestAnimationFrame(animateZDepth);
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      onScroll();
+      requestAnimationFrame(animateZDepth);
+    })();
+  </script>
+
 </body>
 
 </html>
